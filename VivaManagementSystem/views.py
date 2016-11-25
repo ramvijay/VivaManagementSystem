@@ -12,7 +12,7 @@ def login(request):
 
 
 def index(request):
-    template = loader.get_template('VivaManagementSystem/page_index.html')
+    template = loader.get_template('newVMS/page_index.html')
     context = {
         'username': 'Deltatiger',
         'pagename': 'Viva Management System - Home'
