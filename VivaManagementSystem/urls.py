@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.login), # TODO This should be changed to redirect to index.
-    url(r'^login/$', views.login)
+    url(r'^$', views.index),
+    url(r'^login/$', views.login),
+    url(r'^index/$', views.index)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
