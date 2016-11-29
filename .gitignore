@@ -1,0 +1,12 @@
+.idea/misc.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/VivaManagementSystem.iml
+.idea/workspace.xml
+VivaManagementSystem/__pycache__/__init__.cpython-35.pyc
+VivaManagementSystem/__pycache__/settings.cpython-35.pyc
+VivaManagementSystem/__pycache__/urls.cpython-35.pyc
+VivaManagementSystem/__pycache__/views.cpython-35.pyc
+VivaManagementSystem/__pycache__/wsgi.cpython-35.pyc
+.idea/
+VivaManagementSystem/__pycache__/
