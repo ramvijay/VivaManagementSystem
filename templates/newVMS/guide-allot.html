@@ -1,0 +1,78 @@
+{% include "newVMS/header.html" %}
+{% include "newVMS/navbar.html" %}
+	<style>
+		#content{
+			width: 260px;
+			height: 400px;
+			overflow: auto;
+			background: #61b0e9;
+			padding: 10px;
+			margin-top: 10%;
+			margin-left: 100px;
+			border-radius: 10px;
+		}
+		#content form{
+			width: 200px;
+			height: 120px;
+			margin: 5px;
+			padding-top: 20px;
+			font-family: Segoe UI;
+			color: #fdfdfd;
+			font-weight: bold;
+		}
+		.checkbox input[type="checkbox"],
+		.checkbox-inline input[type="checkbox"]{
+			float:left;
+			margin-left: -20px;
+		}
+	</style>
+	
+	<link rel="stylesheet" src="/static/newVMS/bootstrap/css/jquery.mCustomScrollbar.min.css">
+	<h1 style="margin-left: 40%; font-family: Segoe UI;" class="heading"> Faculty List </h1>
+	<div id="content" class="content">
+	
+		<form method="POST" id="guide-allot-form" style="margin-left: 100px;">{% csrf_token %}
+			{% for item in query_results %}
+			
+			<input type="checkbox" id ={{item.id}} value={{item.id}} class="checkbox pull-right">{{ item.title }} {{ item.name }} <br><br>
+			{% endfor %}
+			<!--i class="glyphicons glyphicons-floppy-save" style="font-size: 1.8em; padding-left: 50%;"></i>
+			<a href="#" id="save-button" style="color: #fdfdfd"></a>
+			<i class="glyphicons glyphicons-ok-sign" style="font-size: 1.8em; padding-left: 50%;"></i>
+			<a href="#" id="submit-button" style="color: #fdfdfd"></a-->
+			<button type="submit" form="guide-allot-form" id="submit-button" value="Submit"> Save </button>
+		</form>
+		
+	</div>
+	<script src="/static/newVMS/js/jquery.min.js"></script>
+	<script src="/static/newVMS/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/static/newVMS/js/libs/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/VMS/js/cs_login.js"></script>
+	<script src="/static/newVMS/js/guide-allot.js"></script>
+	<script>
+		(function($){
+			
+			$(window).load(function(){
+				
+				$("#content").mCustomScrollbar({
+					theme:"inset-2-dark",
+					axis:"yx",
+					advanced:{autoExpandHorizontalScroll:true},
+					
+					callbacks:{
+						onOverflowY:function(){
+							var opt=$(this).data("mCS").opt;
+							if(opt.mouseWheel.axis!=="y") opt.mouseWheel.axis="y";
+						},
+						onOverflowX:function(){
+							var opt=$(this).data("mCS").opt;
+							if(opt.mouseWheel.axis!=="x") opt.mouseWheel.axis="x";
+						},
+					}
+				});
+				
+			});
+			
+		})(jQuery);
+	</script>
+{% include "newVMS/footer.html" %}
