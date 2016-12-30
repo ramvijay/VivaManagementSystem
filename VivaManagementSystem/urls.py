@@ -21,5 +21,6 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^login/$', views.login),
-    url(r'^index/$', views.index)
+    url(r'^index/$', views.index),
+    url(r'^guide-allot/$', views.guide_allotment)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

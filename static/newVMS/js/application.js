@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
 
-	madmin.init();
+	//madmin.init();
 
 	// make code pretty
 	window.prettyPrint && prettyPrint();
