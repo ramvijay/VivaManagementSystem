@@ -14,7 +14,6 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_DIR = "C:/Users/PRASANNA/sqlite_databases/"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -37,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'VivaManagementSystem'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -83,11 +81,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-<<<<<<< HEAD
-        'NAME': os.path.join(DB_DIR,"Viva Management System.db"),
-=======
         'NAME': os.path.join(BASE_DIR, 'VivaManagementSystem.db'),
->>>>>>> e67038f93270b05c15c8a2b4d95959c17e85ff33
     }
 }
 

@@ -1,20 +1,5 @@
 from django.db import models
 
-<<<<<<< HEAD
-class Faculty(models.Model):
-    id = models.IntegerField(primary_key=True)
-    title = models.CharField(max_length=4)
-    name = models.CharField(max_length=100)
-    designation = models.CharField(max_length=50)
-    nickname = models.CharField(max_length=10)
-    #employee_id = models.CharField(max_length=10)
-    #core_competency = models.CharField(max_length=30)
-    #email_id = models.CharField(max_length=100)
-    #areas_of_interest = models.TextField()
-    #phone_number = models.CharField(max_length=13)
-    class Meta:
-        db_table = 'Faculty'
-=======
 
 class Faculty(models.Model):
     employee_id = models.CharField(max_length=10, primary_key=True)
@@ -109,19 +94,6 @@ class Tutor(models.Model):
         unique_together = ('session', 'faculty','course')
 
 
-"""class Role(models.Model):
-    ROLE_CHOICES = (
-        ('tutor','tutor'),
-        ('admin','admin')
-    );
-    session = models.ForeignKey(VMS_Session)
-    empId = models.ForeignKey(Faculty)
-    role = models.CharField(max_length=20,choices=ROLE_CHOICES)
-    class Meta:
-        db_table = 'Role'
-        unique_together = ('session', 'empId','role')
-"""
-
 
 class User(models.Model):
     user_id = models.ForeignKey(Faculty)
@@ -143,4 +115,3 @@ class GuideStudentMap(models.Model):
         db_table = 'GuideStudentMap'
         unique_together = ('session', 'guide','student')
 
->>>>>>> e67038f93270b05c15c8a2b4d95959c17e85ff33
