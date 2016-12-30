@@ -4,9 +4,6 @@ File that is used to process all the view request
 
 from django.http import HttpResponse,JsonResponse
 from django.template import loader
-<<<<<<< HEAD
-from .models import Faculty
-=======
 from django.shortcuts import redirect
 from VivaManagementSystem.models import Student, Tutor
 from VivaManagementSystem.models import Faculty
@@ -14,14 +11,6 @@ from AJAXHandlers import AJAXHandlerFactory
 from util import SessionHandler
 from util import spreadsheet_module
 
-
->>>>>>> e67038f93270b05c15c8a2b4d95959c17e85ff33
-
-def guide_allotment(request):
-    query_results = Faculty.objects.all()
-    template = loader.get_template('newVMS/guide-allot.html')
-    context = {'query_results': query_results}
-    return HttpResponse(template.render(context, request))
 
 def login(request):
     SessionHandler.set_session_obj(request.session)
@@ -47,7 +36,10 @@ def index(request):
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    course_name = tutors[0].course.course_name;
+    if len(tutors) == 0 :
+        course_name = "ADMIN VIEW"
+    else:
+        course_name = tutors[0].course.course_name
 
     context = {
         'username': user_name,
@@ -68,7 +60,10 @@ def config(request):
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    course_name = tutors[0].course.course_name;
+    if len(tutors) == 0:
+        course_name = "ADMIN VIEW"
+    else:
+        course_name = tutors[0].course.course_name
 
     context = {
         'username': user_name,
@@ -96,7 +91,10 @@ def guide_allot(request):
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    course_name = tutors[0].course.course_name;
+    if len(tutors) == 0:
+        course_name = "ADMIN VIEW"
+    else:
+        course_name = tutors[0].course.course_name
 
     context = {
         'userid'  :user_id,
@@ -123,10 +121,14 @@ def guide_select(request):
         return redirect('/login/')
     template = loader.get_template('newVMS/page_guide_allot.html')
     user_id = SessionHandler.get_user_id()
+    print(user_id)
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    course_name = tutors[0].course.course_name;
+    if len(tutors) == 0:
+        course_name = "ADMIN VIEW"
+    else:
+        course_name = tutors[0].course.course_name
 
     query_results = Faculty.objects.all()
     template = loader.get_template('newVMS/guide-select.html')
@@ -171,7 +173,10 @@ def student_list(request):
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    course_name = tutors[0].course.course_name;
+    if len(tutors) == 0:
+        course_name = "ADMIN VIEW"
+    else:
+        course_name = tutors[0].course.course_name
 
     context = {
         'username': user_name,
