@@ -83,11 +83,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-<<<<<<< HEAD
-        'NAME': os.path.join(DB_DIR,"Viva Management System.db"),
-=======
         'NAME': os.path.join(BASE_DIR, 'VivaManagementSystem.db'),
->>>>>>> e67038f93270b05c15c8a2b4d95959c17e85ff33
     }
 }
 

@@ -22,14 +22,10 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^login/$', views.login),
     url(r'^index/$', views.index),
-<<<<<<< HEAD
-    url(r'^guide-allot/$', views.guide_allotment)
-=======
     url(r'^logout/$', views.logout),
     url(r'^config/$', views.config),
     url(r'^guide-allot/$', views.guide_allot),
     url(r'^guide-select/$', views.guide_select),
     url(r'^students',views.student_list),
     url(r'^ajax/(?P<ajax_call>[a-zA-Z_]+)/$', views.ajax),
->>>>>>> e67038f93270b05c15c8a2b4d95959c17e85ff33
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
