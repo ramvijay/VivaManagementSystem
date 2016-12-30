@@ -1,221 +1,44 @@
+{% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=1,initial-scale=1,user-scalable=1" />
+	<title>Login - Viva Management System</title>
 
-  <!-- Title: -->
-  <title>MADMIN</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-
-  <!-- Bootstrap Styles -->
-    <!-- Bootstrap 2.0.4 -->
-    <link rel="stylesheet" href="media/bootstrap/css/bootstrap.min.css" />
-    <!-- Font Awesome 2.0 -->
-      <link rel="stylesheet" href="media/fonts/font-awesome/css/font-awesome.min.css" />
-      
-    <!-- /Font Awesome 2.0 -->
-    <!-- IcoMoon font pack -->
-      <link rel="stylesheet" href="media/fonts/icomoon-pack-madmin-1.5/style.css" />
-      
-    <!-- /IcoMoon font pack -->
-  <!-- /Bootstrap Styles -->
-
-  <!-- Theme Styles -->
-
-    <!-- Libs Styles -->
-
-    <!-- /Libs Styles -->
-
-    <!-- Core Theme Styles -->
-    <!-- <link rel="stylesheet/less" href="media/styles/style.less" /> -->
-    <link rel="stylesheet" href="media/styles/style.css" />
-    
-  <!-- /Theme Styles -->
-
-  <!-- CMS/Framework styles & scripts -->
-    <!-- ADD HERE -->
-  <!-- /CMS/Framework styles & scripts -->
-
-  <!-- Style tweaks to CMS/plugins/widgets -->
-    <!-- ADD HERE -->
-    <!-- eg.: <link href="media/css/tweaks.css" rel="stylesheet" /> -->
-  <!-- /Style tweaks to CMS/plugins/widgets -->
-
-  <!-- HTML5 shim, for IE6-8 support of HTML5 elements:
-       load latest from Google Code, fall back to local if offline -->
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <script>window.html5 || document.write('<script src="media/js/libs/fixes/html5.js"><\/script>')</script>
-  <![endif]-->
-
-  <!-- Icons: place favicon.ico and apple-touch-icon.png in the root directory (more: mathiasbynens.be/notes/touch-icons) -->
-    <!--
-    <link rel="shortcut icon" href="bootstrap/ico/favicon.ico" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="media/bootstrap/ico/apple-touch-icon-114-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="media/bootstrap/ico/apple-touch-icon-72-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" href="media/bootstrap/ico/apple-touch-icon-57-precomposed.png" />
-    -->
-  <!-- /Icons -->
-
-  <!-- Fonts -->
-    <!-- ADD HERE -->
-  <!-- /Fonts -->
-
-  <!-- LESS -->
-  <!-- <script src="media/_tools/less-1.3.0.min.js"></script> -->
+	<link href="http://fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="/static/newVMS/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/static/newVMS/styles/cs_login_style.css" />
+	<link rel="stylesheet" type="text/css" href="/static/newVMS/styles/toastr.min.css" />
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+<body>
+	<section class="container login-form">
+		<div id="loginForm">
+			<div class="form-group">
+   				<div class="input-group">
+      				<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+					<input type="text" name="user id" id="userid" placeholder="userid" required class="form-control input-lg" />
+				</div>
+			</div>
+			<div class="form-group">
+   				<div class="input-group">
+      				<div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+					<input type="password" name="password" id="password" placeholder="Password" required class="form-control input-lg" />
+				</div>
+			</div>
+			<button type="submit" id="loginButton" class="btn btn-lg btn-block btn-success">SIGN IN</button>
+			<div id="statusMsg"></div>
+		</div>
+	</section>
 
-<body class="no-sidebar-page">
-
-<!--============================= Page Body =================================-->
-
-
-
-
-
-<!-- #topbar: Top Bar Menu -->
-<ul id="topbar" class="on-click">
-  <li class="pull-left">
-    <h1 id="topbar-title">
-      <i class="icon-cogs"></i>
-      <!-- <i class="icon-icomoon-grid-view"></i> -->
-      <!-- <span aria-hidden="true" class="icon-icomoon-grid-view"></span> -->
-      <a href="page_index.html">MADMIN Control Panel</a>
-    </h1>
-  </li>
-  <li>
-    <a href="theme-docs.html">
-      <i class="icon-book"></i>
-      <!-- <i class="icon-icomoon-grid-view"></i> -->
-      <!-- <span aria-hidden="true" class="icon-icomoon-grid-view"></span> -->
-      <span>Theme Docs</span>
-    </a>
-  </li>
-  <li class="parent pull-right">
-    <a href="page-login.html#" data-toggle="dropdown">
-      <i class="icon-user"></i>
-      <span>John Adminsky</span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="page-login.html#">Profile</a></li>
-      <li><a href="page-login.html#">Finances</a></li>
-      <li class="divider"></li>
-      <li><a href="page-login.html#">Logout</a></li>
-    </ul>
-  </li>
-  <li class="parent pull-right">
-    <a href="page-login.html#" data-toggle="dropdown">
-      <i class="icon-cog"></i>
-      <span>Settings</span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="page-login.html#">Backend Settings</a></li>
-      <li><a href="page-login.html#">Frontend Settings</a></li>
-    </ul>
-  </li>
-  <li class="pull-right">
-    <a href="page-login.html">
-      <i class="icon-sign-blank"></i>
-      <span>Sign in</span>
-    </a>
-  </li>
-</ul>
-<!-- /#topbar: Top Bar Menu -->
-
-
-<div class="container-fluid" id="container">
-
-  <!-- #content.row-fluid: The Main Content Section
-
-    Just add the page content here for a regular page or use .page DIVs for panel pages.
-    Use Bootstrap fluid layout for best effect.
-
-  -->
-     
-  <div class="panel" id="panel-login">
-
-    <header>
-      <i class="icon-sign-blank"></i>
-      <span>SIGN IN</span>
-    </header>
-
-    <div class="content">
-
-      <form action="WB042R743.html" method="post">
-      
-        <h4>Sign In to your registered account.</h4>
-        <br />
-        
-        <div class="login-fields">
-                          
-          <div class="field">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="" placeholder="Username" class="login username-field input-xlarge">
-          </div> <!-- /.field -->
-          
-          <div class="field">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field input-xlarge">
-          </div> <!-- /.field -->
-          
-        </div><!-- /.login-fields -->
-        
-        <div class="login-actions">
-          
-          <br />
-          <span class="login-checkbox">                
-            <label class="choice">
-              <input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4">
-              &nbsp;Keep me signed in
-            </label>
-          </span>
-          
-          <br />
-          <button class="button btn btn-large btn-primary btn-madmin">Sign In</button>
-          
-        </div><!-- /.login-actions -->
-      
-      </form>
-
-    </div><!-- /.content -->
-
-  </div><!-- /.panel -->
-
-</div><!-- /.container-fluid#container -->
-
-
-
-<!--============================= /Page Body ================================-->
-
-<!-- Javascript: placed at the end of the document to speed up page loading
-     (generally gives more consistent behavior than 'defer') -->
-
-  <!-- Scripts will most likely break in IE6 and below, so why bother loading them? -->
-  <!--[if lte IE 6]><noscript><![endif]-->
-
-  <!-- CMS/Framework scripts -->
-    <!-- ADD HERE -->
-  <!-- /CMS/Framework scripts -->
-
-  <!-- jQuery -->
-    <!-- 1: Grab Google CDN's jQuery, if the CMS/Framework hasn't loaded it -->
-    <script>window.jQuery || document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"><\/script>')</script>  
-    <!-- 2: ...fall back to local if offline -->
-    <script>window.jQuery || document.write('<script src="media/js/libs/jquery-1.8.3.min.js"><\/script>')</script>
-    <!-- 3: if jQuery was loaded in compatibility mode, where you have to use the
-            long 'jQuery(...)' instead of '$(...)' (Wordpress does this), revert
-            to to "classic" jQuery behavior -->
-    <script>if ($ === undefined) $ = jQuery</script>
-  <!-- /jQuery -->
-
-  <!-- Bootstrap Components -->
-  <script src="media/bootstrap/js/bootstrap.min.js"></script>
-
-
-<!-- /Javascript -->
-
+	<script src="/static/newVMS/js/jquery-3.1.1.js"></script>
+	<script src="/static/newVMS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/newVMS/js/toastr/toastr.min.js"></script>
+    <script src="/static/newVMS/js/cs_login.js"></script>
 </body>
 </html>

@@ -2,50 +2,41 @@
 <ul id="topbar" class="on-click">
 	<li class="pull-left">
 		<h1 id="topbar-title">
-			<i class="icon-cogs"></i>
-			<!-- <i class="icon-icomoon-grid-view"></i> -->
-			<!-- <span aria-hidden="true" class="icon-icomoon-grid-view"></span> -->
-			<a href="page_index.html">MADMIN Control Panel</a>
+			<a href="/index/">
+                Viva Management System
+            </a>
 		</h1>
 	</li>
-	<li>
-		<a href="theme-docs.html">
-			<i class="icon-book"></i>
-			<!-- <i class="icon-icomoon-grid-view"></i> -->
-			<!-- <span aria-hidden="true" class="icon-icomoon-grid-view"></span> -->
-			<span>Theme Docs</span>
-		</a>
-	</li>
+    <li id="course-detail">
+        <span id="college-name">DAMCS@PSG-TECH  -  </span>
+        <span id="course-name">{{ course_name }}</span>
+    </li>
+
 	<li class="parent pull-right">
 		<a href="page_index.html#" data-toggle="dropdown">
-		<i class="icon-user"></i>
-		<span>John Adminsky</span>
+            <i class="icon-user"></i>
+            <span>{{ username }}</span>
 		</a>
 		<ul class="dropdown-menu">
-			<li><a href="page_index.html#">Profile</a></li>
+			<!--li><a href="page_index.html#">Profile</a></li>
 			<li><a href="page_index.html#">Finances</a></li>
-			<li class="divider"></li>
-			<li><a href="page_index.html#">Logout</a></li>
+			<li class="divider"></li-->
+			<li><a href="#" id="logout">Logout</a></li>
 		</ul>
 	</li>
 	<li class="parent pull-right">
-		<a href="page_index.html#" data-toggle="dropdown">
-		<i class="icon-cog"></i>
-		<span>Settings</span>
+		<a href="/config/">
+             SETTINGS
 		</a>
-		<ul class="dropdown-menu">
+		<!--ul class="dropdown-menu">
 			<li><a href="page_index.html#">Backend Settings</a></li>
 			<li><a href="page_index.html#">Frontend Settings</a></li>
-		</ul>
+		</ul-->
 	</li>
-	<li class="pull-right">
-		<a href="page-login.html">
-		<i class="icon-sign-blank"></i>
-		<span>Sign in</span>
-		</a>
-	</li>
+
 </ul>
 <!-- /#topbar: Top Bar Menu -->
+<<<<<<< HEAD
 <div class="container-fluid" id="container">
 	<!-- #sidebar: Sidebar -->
 	<div id="sidebar">
@@ -133,3 +124,32 @@
 		</a>
 	</div>
 	<!-- /#sidebar: Sidebar -->
+=======
+
+
+<div class="wrapper">
+    <div id="extruderLeft" class="{title:'Pull To Explore'}">
+        <div class="content">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            Quick Navigation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/guide-select/">Guide Selection</a>
+                    </li>
+                    <li>
+                        <a href="/guide-allot/">Guide Allotment</a>
+                    </li>
+                    <li>
+                        <a href="/config/">Configuration</a>
+                    </li>
+
+                </ul>
+             </div>
+        </div>
+    </div>
+</div>
+>>>>>>> e67038f93270b05c15c8a2b4d95959c17e85ff33
