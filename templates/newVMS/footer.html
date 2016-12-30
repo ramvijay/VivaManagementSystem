@@ -1,37 +1,20 @@
-	<!--============================= /Page Body ================================-->
-	<!-- Javascript: placed at the end of the document to speed up page loading
-		(generally gives more consistent behavior than 'defer') -->
-	<!-- Scripts will most likely break in IE6 and below, so why bother loading them? -->
-	<!--[if lte IE 6]>
-	<noscript>
-	<![endif]-->
-	<!-- CMS/Framework scripts -->
-	<!-- ADD HERE -->
-	<!-- /CMS/Framework scripts -->
-	<!-- jQuery -->
-	<!-- 1: Grab Google CDN's jQuery, if the CMS/Framework hasn't loaded it -->
-	<script src="/static/newVMS/js/libs/jquery-1.8.3.min.js"></script>
-	<!-- /jQuery -->
-	<!-- Bootstrap Components -->
+	<script src="/static/newVMS/js/jquery-3.1.1.min.js"></script>
+    <script src="/static/newVMS/js/jquery-ui/jquery-ui.min.js"></script>
 	<script src="/static/newVMS/bootstrap/js/bootstrap.min.js"></script>
-	<!-- Theme Scripts -->
 	<script src="/static/newVMS/js/madmin.js"></script>
-	<script src="/static/newVMS/js/application.js"></script>
-	<!-- Flot Plotting -->
-	<script src="/static/newVMS/js/libs/flot/excanvas.min.js"></script>
-	<script src="/static/newVMS/js/libs/flot/jquery.flot.js"></script>
-	<script src="/static/newVMS/js/libs/flot/jquery.flot.resize.min.js"></script>
-	<script src="/static/newVMS/js/libs/flot/jquery.flot.pie.min.js"></script>
-	<!-- Google Code Prettyfy - source-code highlighter -->
-	<script src="/static/newVMS/js/libs/google-code-prettify/prettify.js"></script>
-	<!-- jQuery Table Sorter Plugin -->
-	<script src="/static/newVMS/js/libs/jquery.tablesorter/jquery.tablesorter.min.js"></script>
-	<!-- jQuery Page Slide Plugin -->
-	<script src="/static/newVMS/js/libs/jquery.pageslide/jquery.pageslide.min.js"></script>
-	<!-- Demo Charts -->
-	<script src="/static/newVMS/js/demo-area-chart.js"></script>
-	<script src="/static/newVMS/js/demo-dynamic-chart.js"></script>
-	<script src="/static/newVMS/js/demo-pie-chart.js"></script>
-	<!-- /Javascript -->
+	<script type="text/javascript" src="/static/newVMS/js/jquery.hoverIntent.min.js"></script>
+    <script type="text/javascript" src="/static/newVMS/js/jquery.mb.flipText.js"></script>
+    <script type="text/javascript" src="/static/newVMS/js/mbExtruder.js"></script>
+    <script type="text/javascript" src="/static/newVMS/js/libs/mcustomscrollbar/jquery.mCustomScrollbar.js"></script>
+
+    <script src="/static/newVMS/js/application.js"></script>
+     <!-- TOASTR -->
+    <script src="/static/newVMS/js/toastr/toastr.min.js"></script>
+    <script src="/static/newVMS/js/toastr/toastr.config.js"></script>
+
+    <!-- Custom JS files used in the template -->
+    {% for file in js_files %}
+        <script src="{{ file }}" type="text/javascript"></script>
+    {% endfor %}
 </body>
 </html>

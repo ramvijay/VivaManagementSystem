@@ -21,5 +21,11 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^login/$', views.login),
-    url(r'^index/$', views.index)
+    url(r'^index/$', views.index),
+    url(r'^logout/$', views.logout),
+    url(r'^config/$', views.config),
+    url(r'^guide-allot/$', views.guide_allot),
+    url(r'^guide-select/$', views.guide_select),
+    url(r'^students',views.student_list),
+    url(r'^ajax/(?P<ajax_call>[a-zA-Z_]+)/$', views.ajax),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

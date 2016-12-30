@@ -36,15 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'VivaManagementSystem'
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+   # 'django.middleware.csrf.CsrfViewMiddleware',
+   # 'django.contrib.auth.middleware.AuthenticationMiddleware',
+   # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -70,6 +71,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'VivaManagementSystem.wsgi.application'
 
+# Changing the session serialization to Pickle (This is the old method. Latest is JSON, but it is causing some problems
+# ... with storing of dates and stuff
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -77,7 +82,7 @@ WSGI_APPLICATION = 'VivaManagementSystem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'VivaManagementSystem.db'),
     }
 }
 
