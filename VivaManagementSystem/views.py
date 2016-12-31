@@ -190,3 +190,30 @@ def student_list(request):
         ]
     }
     return HttpResponse(template.render(context, request))
+
+
+def about(request):
+    SessionHandler.set_session_obj(request.session)
+    if not SessionHandler.is_user_logged_in():
+        return redirect('/login/')
+    template = loader.get_template('newVMS/about.html')
+    user_id = SessionHandler.get_user_id()
+    user_name = Faculty.objects.get(employee_id=user_id).name
+    user_role = SessionHandler.get_user_role()
+    tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+    if len(tutors) == 0:
+        course_name = "ADMIN VIEW"
+    else:
+        course_name = tutors[0].course.course_name
+
+    context = {
+        'username': user_name,
+        'userrole': user_role,
+        'pagename': 'VMS-Config',
+        'course_name': course_name,
+        'css_files': [
+        ],
+        'js_files': [
+        ]
+    }
+    return HttpResponse(template.render(context, request))
