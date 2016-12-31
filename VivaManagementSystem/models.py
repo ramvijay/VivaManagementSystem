@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 class Faculty(models.Model):
     employee_id = models.CharField(max_length=10, primary_key=True)
@@ -65,7 +65,7 @@ class Student(models.Model):
     mentor_email_id = models.EmailField(blank=True)
     domain_key_word = models.CharField(max_length=300,blank=True)
     project_title = models.CharField(max_length=500,blank=True)
-    join_date = models.DateField(default=None,null=True,blank=True)
+    join_date = models.CharField(max_length=10,blank=True)
 
     class Meta:
         db_table = 'Student'

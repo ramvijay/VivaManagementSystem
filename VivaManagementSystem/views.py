@@ -86,6 +86,7 @@ def guide_allot(request):
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
+    spreadsheet_module.update_student_records()
     template = loader.get_template('newVMS/page_guide_allot.html')
     user_id = SessionHandler.get_user_id()
     user_name = Faculty.objects.get(employee_id=user_id).name
@@ -113,9 +114,7 @@ def guide_allot(request):
 
 
 def guide_select(request):
-
     spreadsheet_module.update_faculty_records()
-
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
