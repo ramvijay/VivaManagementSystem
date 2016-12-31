@@ -1,7 +1,7 @@
 /**
  * Created by PRASANNA on 12/13/2016.
  */
-function invSortRows(a, b){
+function sortRows(a, b){
     if ( $(a).find('td:first-Child').text() > $(b).find('td:first-Child').text() ) {
         return 1;
       }
@@ -12,7 +12,7 @@ function invSortRows(a, b){
 
       return 0;
 }
-function sortRows(a, b){
+function invSortRows(a, b){
     if ( $(a).find('td:first-Child').text() < $(b).find('td:first-Child').text() ) {
         return 1;
       }
@@ -69,9 +69,9 @@ function UpdateFacultyList(data){
     $('#table0 tbody').empty()
     $.each(data, function(i, item){
         if(i % 2 == 0)
-            faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+            faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         else
-            faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" ' +'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+            faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" ' +'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         $('#table0 tbody').append(faculty);
     });
 }
@@ -81,9 +81,9 @@ function UpdateGuideList(data){
     $('#table0 tbody').empty();
     $.each(data, function(i, item) {
         if(i % 2 == 0)
-            guide = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td> <td style="padding-left: 5%">5</td></tr>';
+            guide = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td> <td style="padding-left: 5%">5</td></tr>';
         else
-            guide = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td><td style="padding-left: 5%">5</td></tr>';
+            guide = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td><td style="padding-left: 5%">5</td></tr>';
         $('#table0 tbody').append(guide);
     });
 }
@@ -97,14 +97,14 @@ function EditFacultyList(data){
     $.each(data, function(i, item){
         if(i % 2 == 0)
             if(item["fields"]["is_guide"] == 1)
-                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' +  item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
             else
-                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' +  item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         else
             if(item["fields"]["is_guide"] == 1)
-                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
             else
-                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["title"] + ' ' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         $('#table0 tbody').append(faculty);
     });
 }
