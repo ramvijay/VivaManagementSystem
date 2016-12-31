@@ -46,7 +46,15 @@ def index(request):
         'userrole' : user_role,
         'pagename': 'VMS-Index',
         'course_name': course_name,
-        'js_files': []
+        'js_files': [
+            '/static/newVMS/js/charts/raphaeljs.min.js',
+            '/static/newVMS/js/charts/morris.min.js',
+            '/static/newVMS/js/index/chartDrawing.js'
+        ],
+        'css_files' : [
+            '/static/newVMS/styles/index/custom.css',
+            '/static/newVMS/styles/index/morris.css'
+        ]
     }
     return HttpResponse(template.render(context, request))
 
