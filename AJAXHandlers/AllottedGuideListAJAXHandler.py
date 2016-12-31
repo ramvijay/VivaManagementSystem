@@ -2,10 +2,17 @@ import json
 from django.http import JsonResponse
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
 from VivaManagementSystem.models import Faculty, GuideStudentMap
+from util import SessionHandler
 
 
 class AllottedGuideListAJAXHandler(IAJAXHandler):
     def handle_request(self, http_request):
+        user_role = SessionHandler.get_user_role()
+        if user_role == "admin":
+            return JsonResponse({'map_data': 'no data'})
+
+
+
         guides = Faculty.objects.select_related().filter(is_guide=True)
         map = None
         map_dict = dict()

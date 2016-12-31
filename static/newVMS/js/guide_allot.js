@@ -41,6 +41,10 @@ jQuery(document).ready(function ($) {
                   alert("Get Student List Ajax Error " +err.responseText);
                },
                success: function(map_data) {
+                   if(map_data.map_data == "no data"){
+                       window.location = "/index/";
+                       return;
+                   }
                    data = jQuery.parseJSON(data);
                    map_data = jQuery.parseJSON(map_data);
                    map_data.map_data = jQuery.parseJSON(map_data.map_data);
