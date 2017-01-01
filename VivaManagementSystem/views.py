@@ -2,10 +2,10 @@
 File that is used to process all the view request
 """
 
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect
-from VivaManagementSystem.models import Student, Tutor
+from VivaManagementSystem.models import Tutor
 from VivaManagementSystem.models import Faculty
 from AJAXHandlers import AJAXHandlerFactory
 from util import SessionHandler
