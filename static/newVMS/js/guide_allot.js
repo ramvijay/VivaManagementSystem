@@ -6,6 +6,8 @@ var green_bound = 0;
 var orange_bound = 6;
 var tutor_id;
 
+var rollno_detail_map = {}
+var empid_detail_map = {}
 
 jQuery(document).ready(function ($) {
     tutor_id = $("#tutor-id").val();
@@ -16,7 +18,6 @@ jQuery(document).ready(function ($) {
           alert("Get Student List Ajax Error " +err.responseText);
        },
        success: function(data) {
-           console.log(data);
             UpdateStudentList(data)
             $("#student-list").mCustomScrollbar({theme:"3d"});
 
@@ -30,11 +31,11 @@ jQuery(document).ready(function ($) {
           alert("Get Faculty List Ajax Error " +err.responseText);
        },
        success: function(data) {
-            if(data.flag == 0){
-                alert("No guides have been selected, Select guides and come back again");
-                window.location = "/guide-select/";
-                return;
-            }
+
+           data = jQuery.parseJSON(data);
+           if(data.flag == 0){
+                //alert("No guides have been selected, Select guides and come back again");
+           }
             $.ajax({
                url: '/ajax/get_allotted_guide_list',
                error: function(err) {
@@ -43,12 +44,9 @@ jQuery(document).ready(function ($) {
                success: function(map_data) {
                    map_data = jQuery.parseJSON(map_data);
                    if(map_data.map_data == "no data"){
-                       window.location = "/index/";
                        return;
                    }
-                   data = jQuery.parseJSON(data);
 
-                   console.log(map_data);
                    map_data.map_data = jQuery.parseJSON(map_data.map_data);
                    data = $.extend(data,map_data)
                    UpdateFacultyList(data)
@@ -72,6 +70,24 @@ jQuery(document).ready(function ($) {
             })
         });
     });
+    $("#confirm-allot").on("click",function(){
+
+        alert("Are you sure this is the final guide allotment ");
+        console.log(rollno_detail_map)
+        console.log(empid_detail_map)
+        print_array= [];
+        $.map(map_dict,function (value,key) {
+            if (value.length > 0) {
+                $.each(value, function (i, item) {
+
+                    print_array.push({roll_no:item.student,stud_name:rollno_detail_map[item.student].name,
+                        organization:rollno_detail_map[item.student].organization_name,guide_name:empid_detail_map[key].name,
+                        guide_short_name:empid_detail_map[key].short_name});
+                });
+            }
+        });
+        console.log(print_array)
+    });
 });
 
 
@@ -79,7 +95,8 @@ function UpdateStudentList(data){
     var student;
     data = jQuery.parseJSON(data);
     $.each(data.result, function(i, item) {
-          student = '<div class="w3-card-4 card-margin  draggable "> <header id ='+item.roll_no+' class="w3-container w3-green"> <h4 class="student-roll">'+item.roll_no.toUpperCase()+'</h4> </header> <div class="w3-container custom-color-cream"> <div class="pull-left"> <strong>'+item.name+'</strong> </div><div class="pull-left organization-name">'+item.organization_name+'</div> <div class="area-of-interest pull-left"> <small>'+item.domain_key_word+'</small> </div> </div> </div>'
+          rollno_detail_map[item.roll_no] = item;
+          student = '<div class="w3-card-4 card-margin  draggable "> <header id ='+item.roll_no+' class="w3-container w3-green"> <h4 class="student-roll">'+item.roll_no+'</h4> </header> <div class="w3-container custom-color-cream"> <div class="pull-left"> <strong>'+item.name+'</strong> </div><div class="pull-left organization-name">'+item.organization_name+'</div> <div class="area-of-interest pull-left"> <small>'+item.domain_key_word+'</small> </div> </div> </div>'
           $('#student-list').append(student);
 
 
@@ -96,6 +113,7 @@ function UpdateStudentList(data){
 function UpdateFacultyList(data){
     var faculty;
     $.each(data.result, function(i, item) {
+        empid_detail_map[item.pk] = item.fields;
         if(item.fields.areas_of_interest.length > 63){
             item.fields.areas_of_interest = item.fields.areas_of_interest.substr(0,60)+'...';
         }
@@ -218,9 +236,10 @@ function AddFacultyToMappingPane(cmp){
             tolerance: "pointer",
             drop: function(event, ui) {
                 var rollNo= jQuery.trim((ui.draggable).children(":first").text());
+                var emp_id = $(this).find('.emp-id').val();
                 $(this).find('.mapped-stud-list').append('<div class="stud-grid">'+rollNo+'<span class="close-btn">X</span></div>');
                 alloted_count = parseInt($(this).find('.alloted-count').text().trim(),10)+1;
-                map_dict[$(this).find(".emp-id").val()].push({student:rollNo,tutor:tutor_id});
+                map_dict[emp_id].push({student:rollNo,tutor:tutor_id});
                 $(this).find('.mapped-stud-list').removeClass("empty-container");
                 map_dict_string = JSON.stringify({guide:emp_id,student:rollNo,tutor:tutor_id});
                 var faculty_element = $(this);
@@ -234,7 +253,6 @@ function AddFacultyToMappingPane(cmp){
                       alert("update mapping List Ajax Error " +err.responseText);
                    },
                    success: function(data) {
-                        mapped_list_count = $(".mapped-stud-list > div").length;
                         new_count=0;
                         if(data["result"]!="no_data") {
                             json_data = JSON.parse(data.result);
@@ -245,7 +263,7 @@ function AddFacultyToMappingPane(cmp){
                                 new_count++;
                             });
                         }
-                        alloted_count = mapped_list_count + new_count;
+                        alloted_count = alloted_count + new_count;
                         if(alloted_count<=green_bound){
                             faculty_element.find('header').addClass('w3-green');
                             faculty_element.find('header').removeClass('custom-color-danger');

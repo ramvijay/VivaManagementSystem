@@ -8,12 +8,13 @@ from util import SessionHandler
 class AllottedGuideListAJAXHandler(IAJAXHandler):
     def handle_request(self, http_request):
         user_role = SessionHandler.get_user_role()
-        if user_role == "admin":
-            return JsonResponse({'map_data': 'no data'})
 
 
 
         guides = Faculty.objects.select_related().filter(is_guide=True)
+
+        if len(guides) == 0:
+            return JsonResponse({'map_data' : 'no data'})
         map = None
         map_dict = dict()
         for iter_guide in guides:

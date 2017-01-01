@@ -56,7 +56,7 @@ class AJAXHandlerFactory:
             return DeleteAllottedGuideListAJAXHandler()
         elif ajax_call == 'vms_session':
             return VMSSessionAJAXHandler()
-        elif ajax_call == 'set_tutor_setup_config':
+        elif ajax_call == 'tutor_setup_config':
             return TutorSetupConfigAJAXHandler()
 
         return None

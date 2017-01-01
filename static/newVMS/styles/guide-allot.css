@@ -79,7 +79,7 @@ body{
 }
 .container-4 input#search{
   width: 82%;
-  height: 25px;
+  height: 30px;
   background: #b1aea8;
   border: none;
   font-size: 10pt;
@@ -282,4 +282,10 @@ body{
 .student-roll{
     float:right;
 
+}
+
+.confirm-button{
+    position: absolute;
+    left:36%;
+    bottom:-7%;
 }

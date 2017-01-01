@@ -28,17 +28,6 @@ class Course(models.Model):
         db_table = 'Course'
 
 
-class Batch(models.Model):
-    course = models.ForeignKey(Course, null=False)
-    year = models.IntegerField(null=False)
-    email_id = models.EmailField(default="Invalid")
-    strength = models.IntegerField(default=0)
-    tutor = models.ForeignKey(Faculty)
-
-    class Meta:
-        db_table = 'Batch'
-        unique_together = ('course', 'year')
-
 
 class Student(models.Model):
     SEMESTER_CHOICES = (
@@ -84,6 +73,18 @@ class VMS_Session(models.Model):
         db_table = 'VMS_Session'
 
 
+class Batch(models.Model):
+    session = models.ForeignKey(VMS_Session,default=1)
+    course = models.ForeignKey(Course, null=False)
+    year = models.IntegerField(null=True)
+    email_id = models.EmailField(default="Invalid")
+    strength = models.IntegerField(default=0)
+    tutor = models.ForeignKey(Faculty)
+
+    class Meta:
+        db_table = 'Batch'
+        unique_together = ('session','course')
+
 class Tutor(models.Model):
     session = models.ForeignKey(VMS_Session)
     faculty = models.ForeignKey(Faculty)
@@ -96,13 +97,13 @@ class Tutor(models.Model):
 
 
 class User(models.Model):
-    user_id = models.ForeignKey(Faculty)
+    user = models.ForeignKey(Faculty)
     user_pass = models.CharField(max_length=150)
-    user_role = models.IntegerField(default=-1)
+    user_role = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'User'
-        unique_together = ('user_id', 'user_role')
+        unique_together = ('user', 'user_role')
 
 
 class GuideStudentMap(models.Model):

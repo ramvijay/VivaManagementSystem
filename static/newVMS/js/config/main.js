@@ -160,8 +160,20 @@ update_course_page_2 = function() {
                 $('#class-tutor-alloc-data').html(currentHtml + newHtml);
             });
             $.ajax({
-               url:'/ajax/tutor_setup_config'
-            });
+            url:'/ajax/tutor_setup_config/',
+            type:'POST',
+            data: {action:'GET'},
+            success: function(data) {
+                data = JSON.parse(data)
+                data_set = JSON.parse(data.result)
+                $.each(data_set,function(i,item) {
+
+                    $('#'+i+"_student_count").val(item.fields.strength)
+                    $('#'+i+"_tutor").val(item.fields.tutor)
+                    $('#'+i+"_group_mail").val(item.fields.email_id)
+                });
+            }
+        });
         }
     });
 }
@@ -271,9 +283,6 @@ $(document).ready(function(){
     });
     // END PAGE 1
     // START PAGE 2
-    $('#config-2').click(function () {
-
-    });
 
 
 
@@ -295,13 +304,17 @@ $(document).ready(function(){
             mydata.push(record);
         });
         final_data = JSON.stringify(mydata);
-        console.log(final_data)
         $.ajax({
-            url:'/ajax/set_tutor_setup_config/',
+            url:'/ajax/tutor_setup_config/',
             type:'POST',
             data: {action:'SET',result:final_data},
             success: function(data) {
-                console.log(data);
+                data = JSON.parse(data)
+                if(data.result == "success"){
+                    toastr.success("Tutor Setup Saved ! ");
+                }else{
+                    toastr.error("Problem While saving ! ");
+                }
             }
         });
     });

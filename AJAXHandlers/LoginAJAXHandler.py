@@ -23,7 +23,7 @@ class LoginAJAXHandler(IAJAXHandler):
         result = dict()
         result['status'] = 'fail'
         try:
-            user_obj = User.objects.get(user_id=userid, user_pass=password)
+            user_obj = User.objects.get(user=userid, user_pass=password)
             result['status'] = 'success'
             result['role'] = user_obj.user_role
             SessionHandler.login_user(user_obj)
