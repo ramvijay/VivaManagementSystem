@@ -111,6 +111,7 @@ function UpdateStudentList(data){
 function UpdateFacultyList(data){
     var faculty;
     recommended_count = data.rc;
+    orange_bound = recommended_count;
     $.each(data.result, function(i, item) {
         empid_detail_map[item.pk] = item.fields;
         if(item.fields.areas_of_interest.length > 63){
