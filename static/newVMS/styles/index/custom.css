@@ -1,3 +1,6 @@
+body{
+ background-color: black;
+}
 #content {
     margin-top: 50px;
 }
@@ -21,7 +24,8 @@
     -moz-column-break-inside: avoid;
     column-break-inside: avoid;
     opacity: 1;
-    transition: all .2s ease; 
+    transition: all .2s ease;
+
 }
 
 .x_title {
@@ -52,4 +56,8 @@
 
 #studentVivaAllotStatus {
     height: 250px;
+}
+
+#faculty-alloted-list{
+    height: 315px;
 }

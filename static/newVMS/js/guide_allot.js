@@ -73,8 +73,6 @@ jQuery(document).ready(function ($) {
     $("#confirm-allot").on("click",function(){
 
         alert("Are you sure this is the final guide allotment ");
-        console.log(rollno_detail_map)
-        console.log(empid_detail_map)
         print_array= [];
         $.map(map_dict,function (value,key) {
             if (value.length > 0) {
@@ -112,6 +110,7 @@ function UpdateStudentList(data){
 
 function UpdateFacultyList(data){
     var faculty;
+    recommended_count = data.rc;
     $.each(data.result, function(i, item) {
         empid_detail_map[item.pk] = item.fields;
         if(item.fields.areas_of_interest.length > 63){
@@ -129,7 +128,7 @@ function UpdateFacultyList(data){
             w3_class = "custom-color-danger";
 
         }
-        faculty = '<div class="custom-card-margin" style="display: table "> <div class="w3-card-4" style="display: table-row"> <div class="faculty-detail "> <input type="hidden" class="emp-id" value='+item.pk+'><header class="w3-container '+w3_class+'"> <h4><span class="short-name">'+item.fields.short_name.toUpperCase()+'</span><span class="allot-status"> <span class="alloted-count">'+no_of_allocated+'</span>/ <span class="recommended-count">6</span> </span> </h4> </header> <div class="w3-container custom-color-cream padding-bottom-10"> <div class="core-competency pull-left"> <strong>'+item.fields.core_competency+'</strong> </div> <div class="area-of-interest pull-left"> <small>'+item.fields.areas_of_interest+'</small> </div> </div> </div> <div class="allot-now-div table-cell" > <span class="vertical-text">ALLOT NOW</span>  </div> </div> </div>';
+        faculty = '<div class="custom-card-margin" style="display: table "> <div class="w3-card-4" style="display: table-row"> <div class="faculty-detail "> <input type="hidden" class="emp-id" value='+item.pk+'><header class="w3-container '+w3_class+'"> <h4><span class="short-name">'+item.fields.short_name.toUpperCase()+'</span><span class="allot-status"> <span class="alloted-count">'+no_of_allocated+'</span>/ <span class="recommended-count">'+recommended_count+'</span> </span> </h4> </header> <div class="w3-container custom-color-cream padding-bottom-10"> <div class="core-competency pull-left"> <strong>'+item.fields.core_competency+'</strong> </div> <div class="area-of-interest pull-left"> <small>'+item.fields.areas_of_interest+'</small> </div> </div> </div> <div class="allot-now-div table-cell" > <span class="vertical-text">ALLOT NOW</span>  </div> </div> </div>';
         $('#faculty-list').append(faculty);
     });
 
