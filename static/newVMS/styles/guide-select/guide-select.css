@@ -9,8 +9,8 @@ body{
     position: relative !important;
 }
 .glyphicon-floppy-save{
-    font-size: 30px;
-    margin-left: 45%;
+    padding-left: 10% !important;
+    position: relative !important;
 }
 #content{
     left: 10% !important;
@@ -52,7 +52,7 @@ body{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #c9302c;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -90,10 +90,12 @@ input:checked + .slider:before {
 /* Rounded sliders */
 .slider.round {
   border-radius: 14px;
+  border-width: medium !important;
 }
 
 .slider.round:before {
   border-radius: 50%;
-    background: #fcfcfc;
+  background: #BCC6CC;
+  border-width: medium !important;
 }
 

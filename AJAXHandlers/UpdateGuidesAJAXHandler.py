@@ -1,5 +1,5 @@
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import Faculty
+from VivaManagementSystem.models import Faculty, Batch
 from django.http import JsonResponse
 from django.core import serializers
 
@@ -13,4 +13,6 @@ class UpdateGuidesAJAXHandler(IAJAXHandler):
             guide.is_guide = 1
             guide.save()
         guide_list = list(Faculty.objects.filter(is_guide=1))
-        return JsonResponse({'result': serializers.serialize('python', guide_list)})
+        students_count = sum((x.strength for x in Batch.objects.all()))
+        recommended_count = students_count / len(guide_list)
+        return JsonResponse({'result': serializers.serialize('python', guide_list), 'rc': int(recommended_count)})

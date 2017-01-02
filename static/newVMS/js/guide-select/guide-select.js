@@ -76,14 +76,14 @@ function UpdateFacultyList(data){
     });
 }
 
-function UpdateGuideList(data){
+function UpdateGuideList(data, recommended_count){
     var guide;
     $('#table0 tbody').empty();
     $.each(data, function(i, item) {
         if(i % 2 == 0)
-            guide = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td> <td style="padding-left: 5%">5</td></tr>';
+            guide = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td> <td style="padding-left: 5%">' + recommended_count + '</td></tr>';
         else
-            guide = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td><td style="padding-left: 5%">5</td></tr>';
+            guide = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td><td style="padding-left: 5%">'+ recommended_count + '</td></tr>';
         $('#table0 tbody').append(guide);
     });
 }
@@ -117,8 +117,8 @@ $("h1").on('click', '#edit-button', function(){
         dataType: "json",
         success:function(result){
             EditFacultyList(result["result"]);
-            $("a#submit-button").show();
-            $("button#edit-button").remove();
+            $("h1#table-heading").append('<a href="#" id="submit-button"><span class="glyphicon glyphicon-floppy-save"></span></a>')
+            $("#edit-button").remove();
         },
         error: function(){alert("error");}
     });
@@ -130,15 +130,13 @@ $(document).ready(function(){
         data: {},
         dataType: "json",
         success: function(result){
-            console.log(result["result"][0]["fields"]);
             if(result["flag"] == 1){
                 $(".heading").html("Eligible Guides");
                 $("th.variable").html("Students allocated");
                 $("#table0 thead tr").append('<th class="header count" style="width:8%">Recommended</th>');
-                $("a#submit-button").hide();
-                UpdateGuideList(result["result"]);
-                $("h1#heading").append('<a href="#" id="edit-button"><span class="glyphicon glyphicon-edit"></span></a>');
-                //$("h1#heading").append('<button type="submit" id="edit-button" style="margin-left: 20%" value="Submit"> Edit </button>');
+                $("a#submit-button").remove();
+                UpdateGuideList(result["result"], result["rc"]);
+                $("h1#table-heading").append('<a href="#" id="edit-button"><span class="glyphicon glyphicon-edit"></span></a>');
             }
             else
                 UpdateFacultyList(result["result"]);
@@ -146,10 +144,9 @@ $(document).ready(function(){
     });
 });
 
-$("#submit-button").click(function(){
+$("h1").on('click', '#submit-button', function(){
     var allVals = [];
     var data;
-
     $('#content :checked').each(function() {
 	    allVals.push($(this).val());
 	});
@@ -166,16 +163,15 @@ $("#submit-button").click(function(){
 	        });
             $(".heading").html("Eligible Guides");
             $('tbody tr').each(function(index) {
-                $(this).append('<td style="padding-left: 5%">5</td>');
+                $(this).append('<td style="padding-left: 5%">' + result["rc"] + '</td>');
 	            if(index % 2 == 0){$(this).removeClass().addClass("even");}
                 else{$(this).removeClass().addClass("odd");}
 	        });
             $("th.variable").html("Students allocated");
             $("td.input").html('<input type="text" name="count">');
-            $("a#submit-button").hide();
+            $("a#submit-button").remove();
             $("#table0 thead tr").append('<th class="header count" style="width:8%">Recommended</th>');
-            $("h1#heading").append('<a href="#" id="edit-button"><span class="glyphicon glyphicon-edit"></span></a>');
-            //$("h1#heading").append('<button type="submit" id="edit-button" style="margin-left: 20%" value="Submit"> Edit </button>');
+            $("h1#table-heading").append('<a href="#" id="edit-button"><span class="glyphicon glyphicon-edit"></span></a>');
          },
          error:function(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);

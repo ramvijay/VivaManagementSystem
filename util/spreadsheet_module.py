@@ -27,10 +27,10 @@ def update_faculty_records():
         for index, row in faculty_data.loc[num_db_records:].iterrows():
              model = Faculty()
              model.title = row['Title']
-             model.name = row['Full Name']
+             model.name =  row['Full Name'].upper()
              model.designation = row['Designation']
-             model.short_name = row['Short Name used in Department']
-             model.employee_id = row['Employee ID']
+             model.short_name = row['Short Name used in Department'].upper()
+             model.employee_id = row['Employee ID'].upper()
              model.core_competency = row['Core Competency']
              model.is_guide = 0
              model.students_allocated = 0
@@ -65,10 +65,10 @@ def update_student_records():
         # Append rows to the Database
         for index, row in student_data.loc[num_db_records:].iterrows():
             model = Student()
-            model.roll_no = row['Roll Number']
+            model.roll_no = row['Roll Number'].upper()
             model.course_id = course_dict[row['MSc Programme']]
             model.semester = semester[row['Semester']]
-            model.name = row['Name (as per college record)']
+            model.name = row['Name (as per college record)'].upper()
             model.email_id = row['Your E-Mail ID']
             model.phone_number = row['Mobile Number']
             model.project_category = row['Project Category']
