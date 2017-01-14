@@ -16,6 +16,8 @@ from AJAXHandlers.UpdateAllottedGuideListAJAXHandler import UpdateAllottedGuideL
 from AJAXHandlers.DeleteAllottedGuideListAJAXHandler import DeleteAllottedGuideListAJAXHandler
 from AJAXHandlers.CourseListAJAXHandler import CourseListAJAXHandler
 from AJAXHandlers.VMSSessionAJAXHandler import VMSSessionAJAXHandler
+from AJAXHandlers.StudentLocationGraphAJAXHandler import StudentLocationGraphAJAXHandler
+from AJAXHandlers.StudentCompanyGraphAJAXHandler import StudentCompanyGraphAJAXHandler
 
 
 class AJAXHandlerFactory:
@@ -58,5 +60,9 @@ class AJAXHandlerFactory:
             return VMSSessionAJAXHandler()
         elif ajax_call == 'tutor_setup_config':
             return TutorSetupConfigAJAXHandler()
+        elif ajax_call == 'student_location_graph':
+            return StudentLocationGraphAJAXHandler()
+        elif ajax_call == 'student_company_graph':
+            return StudentCompanyGraphAJAXHandler()
 
         return None

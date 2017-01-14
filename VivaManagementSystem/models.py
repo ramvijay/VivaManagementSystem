@@ -45,36 +45,37 @@ class Student(models.Model):
     name = models.CharField(max_length=100)
     email_id = models.EmailField(default="Invalid")
     phone_number = models.CharField(max_length=13)
-    project_category = models.CharField(max_length=20,choices=PROJECT_CATEGORY_CHOICES,blank=True)
-    organization_name = models.CharField(max_length=200,blank=True)
-    postal_address = models.CharField(max_length=500,blank=True)
-    address_short_url = models.CharField(max_length=200,blank=True)
-    mentor_name = models.CharField(max_length=100,blank=True)
-    mentor_designation = models.CharField(max_length=100,blank=True)
+    project_category = models.CharField(max_length=20, choices=PROJECT_CATEGORY_CHOICES, blank=True)
+    organization_name = models.CharField(max_length=200, blank=True)
+    postal_address = models.CharField(max_length=500, blank=True)
+    address_short_url = models.CharField(max_length=200, blank=True)
+    address_city = models.CharField(max_length=300, blank=True)
+    mentor_name = models.CharField(max_length=100, blank=True)
+    mentor_designation = models.CharField(max_length=100, blank=True)
     mentor_email_id = models.EmailField(blank=True)
-    domain_key_word = models.CharField(max_length=300,blank=True)
-    project_title = models.CharField(max_length=500,blank=True)
-    join_date = models.CharField(max_length=10,blank=True)
+    domain_key_word = models.CharField(max_length=300, blank=True)
+    project_title = models.CharField(max_length=500, blank=True)
+    join_date = models.CharField(max_length=10, blank=True)
 
     class Meta:
         db_table = 'Student'
 
 
 class VMS_Session(models.Model):
-    SEM_CHOICES=(
-        ('odd','odd'),
-        ('even','even')
-    );
+    SEM_CHOICES = (
+        ('odd', 'odd'),
+        ('even', 'even')
+    )
     session_id = models.IntegerField(primary_key=True)
     session_year = models.IntegerField(default=0)
-    session_sem = models.CharField(max_length=5,choices=SEM_CHOICES)
+    session_sem = models.CharField(max_length=5, choices=SEM_CHOICES)
     is_current = models.BooleanField(default=False)
     class Meta:
         db_table = 'VMS_Session'
 
 
 class Batch(models.Model):
-    session = models.ForeignKey(VMS_Session,default=1)
+    session = models.ForeignKey(VMS_Session, default=1)
     course = models.ForeignKey(Course, null=False)
     year = models.IntegerField(null=True)
     email_id = models.EmailField(default="Invalid")

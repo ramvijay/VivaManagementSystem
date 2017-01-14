@@ -33,10 +33,11 @@ def index(request):
         return redirect('/login/')
     template = loader.get_template('newVMS/page_index.html')
     user_id = SessionHandler.get_user_id()
+    print(user_id)
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    if len(tutors) == 0 :
+    if len(tutors) == 0:
         course_name = "ADMIN VIEW"
     else:
         course_name = tutors[0].course.course_name
