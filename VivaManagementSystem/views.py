@@ -15,7 +15,7 @@ from util import spreadsheet_module
 def login(request):
     SessionHandler.set_session_obj(request.session)
     if SessionHandler.is_user_logged_in():
-        return redirect("/ind   ex/")
+        return redirect("/index/")
     template = loader.get_template('newVMS/page-login.html')
     context = {}
     return HttpResponse(template.render(context, request))

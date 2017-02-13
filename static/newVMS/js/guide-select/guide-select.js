@@ -69,9 +69,9 @@ function UpdateFacultyList(data){
     $('#table0 tbody').empty()
     $.each(data, function(i, item){
         if(i % 2 == 0)
-            faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+            faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         else
-            faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" ' +'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+            faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" ' +'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         $('#table0 tbody').append(faculty);
     });
 }
@@ -81,9 +81,9 @@ function UpdateGuideList(data, recommended_count){
     $('#table0 tbody').empty();
     $.each(data, function(i, item) {
         if(i % 2 == 0)
-            guide = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td> <td style="padding-left: 5%">' + recommended_count + '</td></tr>';
+            guide = '<tr class="odd" id = '+ item["pk"] + '><td>' + item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <input type="textbox" name ="count"> </td> <td style="padding-left: 5%">' + recommended_count + '</td></tr>';
         else
-            guide = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <input type="textbox" name ="count"> </td><td style="padding-left: 5%">'+ recommended_count + '</td></tr>';
+            guide = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <input type="textbox" name ="count"> </td><td style="padding-left: 5%">'+ recommended_count + '</td></tr>';
         $('#table0 tbody').append(guide);
     });
 }
@@ -97,14 +97,14 @@ function EditFacultyList(data){
     $.each(data, function(i, item){
         if(i % 2 == 0)
             if(item["fields"]["is_guide"] == 1)
-                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' +  item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' +  item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ="'+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
             else
-                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' +  item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="odd" id = '+ item["pk"] + '><td>' +  item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         else
             if(item["fields"]["is_guide"] == 1)
-                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" checked> <div class="slider round"></div> </label> </td> </tr>'
             else
-                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"] + '</td><td>' + item["fields"]["designation"] + '</td><td>' + item["fields"]["core_competency"] + '</td><td>' + item["fields"]["short_name"] + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
+                faculty = '<tr class="even" id = '+ item["pk"] + '><td>' + item["fields"]["name"].toUpperCase() + '</td><td>' + item["fields"]["designation"].toUpperCase() + '</td><td>' + item["fields"]["core_competency"].toUpperCase() + '</td><td>' + item["fields"]["short_name"].toUpperCase() + '</td> <td class="input"> <label class="switch"> <input type="checkbox" id ='+item["pk"]+'" '+'value="'+item["pk"]+'"class="checkbox pull-right" > <div class="slider round"></div> </label> </td> </tr>'
         $('#table0 tbody').append(faculty);
     });
 }
