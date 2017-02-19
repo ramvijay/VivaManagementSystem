@@ -117,7 +117,7 @@ $("h1").on('click', '#edit-button', function(){
         dataType: "json",
         success:function(result){
             EditFacultyList(result["result"]);
-            $("h1#table-heading").append('<a href="#" id="submit-button"><span class="glyphicon glyphicon-floppy-save"></span></a>')
+            $("h1#table-heading").append('<button type="button" class="btn btn-primary confirm-button" style="margin-left: 57%;" id="submit-button">SAVE</button>')
             $("#edit-button").remove();
         },
         error: function(){alert("error");}
@@ -136,7 +136,7 @@ $(document).ready(function(){
                 $("#table0 thead tr").append('<th class="header count" style="width:8%">Recommended</th>');
                 $("a#submit-button").remove();
                 UpdateGuideList(result["result"], result["rc"]);
-                $("h1#table-heading").append('<a href="#" id="edit-button"><span class="glyphicon glyphicon-edit"></span></a>');
+                $("h1#table-heading").append('<button type="button" class="btn btn-primary confirm-button" style="margin-left: 50%;" id="edit-button">EDIT</button>');
             }
             else
                 UpdateFacultyList(result["result"]);
@@ -171,7 +171,7 @@ $("h1").on('click', '#submit-button', function(){
             $("td.input").html('<input type="text" name="count">');
             $("a#submit-button").remove();
             $("#table0 thead tr").append('<th class="header count" style="width:8%">Recommended</th>');
-            $("h1#table-heading").append('<a href="#" id="edit-button"><span class="glyphicon glyphicon-edit"></span></a>');
+            $("h1#table-heading").append('<button type="button" class="btn btn-primary confirm-button" style="margin-left: 50%;" id="edit-button">EDIT</button>');
          },
          error:function(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);

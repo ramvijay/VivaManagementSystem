@@ -93,7 +93,7 @@ var nAgt=navigator.userAgent;if(!jQuery.browser){jQuery.browser={},jQuery.browse
       var txt= el.html();
       var fontsize= parseInt(el.css('font-size'));
       var fontfamily=el.css('font-family').replace(/'/g, '').replace(/"/g,'');
-      if (fontfamily==undefined) fontfamily="Arial";
+      if (fontfamily==undefined) fontfamily="Josefin Sans";
       var placeHolder=$("<span/>").css({position:"absolute",top:-100, whiteSpace:"noWrap", fontSize:fontsize, fontFamily: fontfamily});
       placeHolder.text(txt);
       $("body").append(placeHolder);

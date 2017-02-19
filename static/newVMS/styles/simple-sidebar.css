@@ -115,6 +115,7 @@
 
     #sidebar-wrapper {
         width: 250px;
+        font-family: 'Josefin Sans', sans-serif !important;
     }
 
     #wrapper.toggled #sidebar-wrapper {
