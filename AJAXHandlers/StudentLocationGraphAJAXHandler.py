@@ -15,8 +15,11 @@ class StudentLocationGraphAJAXHandler(IAJAXHandler):
         location_dict = dict()
         for student in Student.objects.all():
             if student.address_city == '':
-                student.address_city = GeoLocationAPI(student.address_short_url) \
-                                            .get_city_from_location()
+                try:
+                    student.address_city = GeoLocationAPI(student.address_short_url) \
+                                                .get_city_from_location()
+                except Exception:
+                    student.address_city = 'Others'
                 student.save()
             if student.address_city in location_dict:
                 location_dict[student.address_city] += 1

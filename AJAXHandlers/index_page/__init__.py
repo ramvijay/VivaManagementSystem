@@ -1,0 +1,2 @@
+from AJAXHandlers.index_page.TutorDetailsAJAXHandler import TutorDetailsAJAXHandler
+from AJAXHandlers.index_page.GuideAllotmentStatusAJAXHandler import GuideAllotmentStatusAJAXHandler

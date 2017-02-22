@@ -18,6 +18,8 @@ from AJAXHandlers.CourseListAJAXHandler import CourseListAJAXHandler
 from AJAXHandlers.VMSSessionAJAXHandler import VMSSessionAJAXHandler
 from AJAXHandlers.StudentLocationGraphAJAXHandler import StudentLocationGraphAJAXHandler
 from AJAXHandlers.StudentCompanyGraphAJAXHandler import StudentCompanyGraphAJAXHandler
+from AJAXHandlers.index_page.TutorDetailsAJAXHandler import TutorDetailsAJAXHandler
+from AJAXHandlers.index_page.GuideAllotmentStatusAJAXHandler import GuideAllotmentStatusAJAXHandler
 
 
 class AJAXHandlerFactory:
@@ -64,5 +66,8 @@ class AJAXHandlerFactory:
             return StudentLocationGraphAJAXHandler()
         elif ajax_call == 'student_company_graph':
             return StudentCompanyGraphAJAXHandler()
-
+        elif ajax_call == 'index_tutor_data':
+            return TutorDetailsAJAXHandler()
+        elif ajax_call == 'index_guide_data':
+            return GuideAllotmentStatusAJAXHandler()
         return None
