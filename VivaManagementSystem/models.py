@@ -43,7 +43,6 @@ class Course(models.Model):
         db_table = 'Course'
 
 
-
 class Student(models.Model):
     SEMESTER_CHOICES = (
         (7, '7'),
@@ -76,7 +75,6 @@ class Student(models.Model):
         db_table = 'Student'
 
 
-
 class Batch(models.Model):
     session = models.ForeignKey(VMS_Session, default=1)
     course = models.ForeignKey(Course, null=False)
@@ -87,7 +85,8 @@ class Batch(models.Model):
 
     class Meta:
         db_table = 'Batch'
-        unique_together = ('session','course')
+        unique_together = ('session', 'course')
+
 
 class Tutor(models.Model):
     session = models.ForeignKey(VMS_Session)
@@ -96,7 +95,7 @@ class Tutor(models.Model):
 
     class Meta:
         db_table = 'Tutor'
-        unique_together = ('session', 'faculty','course')
+        unique_together = ('session', 'faculty', 'course')
 
 
 

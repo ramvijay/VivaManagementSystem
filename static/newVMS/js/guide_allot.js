@@ -84,7 +84,6 @@ jQuery(document).ready(function ($) {
                 });
             }
         });
-        console.log(print_array)
     });
 });
 
@@ -256,12 +255,22 @@ function AddFacultyToMappingPane(cmp){
                         new_count=0;
                         if(data["result"]!="no_data") {
                             json_data = JSON.parse(data.result);
+                            alloted_count = alloted_count - faculty_element.find('.extra-stud-list').children().length;
                             faculty_element.find('.extra-stud-list').children().remove();
 
                             $.each(json_data, function (i, item) {
                                 faculty_element.find('.extra-stud-list').append('<div class="stud-grid">' + item.fields.student + '</div>');
                                 new_count++;
                             });
+                            if($('.dash-line').is(':hidden')){
+                                $('.dash-line').show();
+                            }
+                        }else{
+                            alloted_count = alloted_count - faculty_element.find('.extra-stud-list').children().length;
+                            faculty_element.find('.extra-stud-list').children().remove();
+                            if($('.dash-line').is(':visible')){
+                                $('.dash-line').hide();
+                            }
                         }
                         alloted_count = alloted_count + new_count;
                         if(alloted_count<=green_bound){
