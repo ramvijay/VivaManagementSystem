@@ -29,6 +29,19 @@ class GeoLocationAPI:
         """
         if json_data['status'] != 'OK':
             raise Exception("API Call Failed. Status : {0}".format(json_data['status']))
+        #  Find the address item with the address_type of localiy
+        admin_area_level_2_node = None
+        for address in json_data['results']:
+            # Check locality
+            if 'locality' in address['types']:
+                # Get the address
+                return address['address_components'][0]['long_name']
+            if 'administrative_area_level_2' in address['types']:
+                admin_area_level_2_node = address
+        # If locality is not found then we look for administrative_area_level_1
+        if admin_area_level_2_node != None:
+            return admin_area_level_2_node['address_components'][0]['long_name']
+        # If all else fails
         return json_data['results'][0]['address_components'][4]['long_name']
 
     def __perform_get_request(self):
