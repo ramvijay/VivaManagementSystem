@@ -1,6 +1,21 @@
 from django.db import models
 from django.conf import settings
 
+
+class VMS_Session(models.Model):
+    SEM_CHOICES = (
+        ('odd', 'odd'),
+        ('even', 'even')
+    )
+    session_id = models.IntegerField(primary_key=True)
+    session_year = models.IntegerField(default=0)
+    session_sem = models.CharField(max_length=5, choices=SEM_CHOICES)
+    is_current = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'VMS_Session'
+
+
 class Faculty(models.Model):
     employee_id = models.CharField(max_length=10, primary_key=True)
     title = models.CharField(max_length=4)
@@ -56,22 +71,10 @@ class Student(models.Model):
     domain_key_word = models.CharField(max_length=300, blank=True)
     project_title = models.CharField(max_length=500, blank=True)
     join_date = models.CharField(max_length=10, blank=True)
-
+    session = models.ForeignKey(VMS_Session)
     class Meta:
         db_table = 'Student'
 
-
-class VMS_Session(models.Model):
-    SEM_CHOICES = (
-        ('odd', 'odd'),
-        ('even', 'even')
-    )
-    session_id = models.IntegerField(primary_key=True)
-    session_year = models.IntegerField(default=0)
-    session_sem = models.CharField(max_length=5, choices=SEM_CHOICES)
-    is_current = models.BooleanField(default=False)
-    class Meta:
-        db_table = 'VMS_Session'
 
 
 class Batch(models.Model):
@@ -116,4 +119,5 @@ class GuideStudentMap(models.Model):
     class Meta:
         db_table = 'GuideStudentMap'
         unique_together = ('session', 'guide','student')
+
 
