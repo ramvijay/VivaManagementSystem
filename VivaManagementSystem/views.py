@@ -10,7 +10,21 @@ from VivaManagementSystem.models import Faculty
 from AJAXHandlers import AJAXHandlerFactory
 from util import SessionHandler
 from util import spreadsheet_module
+import socket
 
+
+def is_connected():
+    try:
+        # see if we can resolve the host name -- tells us if there is
+        # a DNS listening
+        host = socket.gethostbyname("www.google.com")
+        # connect to the host -- tells us if the host is actually
+        # reachable
+        s = socket.create_connection((host, 80), 2)
+        return True
+    except:
+        pass
+    return False
 
 def login(request):
     SessionHandler.set_session_obj(request.session)
@@ -95,7 +109,8 @@ def guide_allot(request):
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
-    spreadsheet_module.update_student_records()
+    if is_connected():
+        spreadsheet_module.update_student_records()
     template = loader.get_template('newVMS/page_guide_allot.html')
     user_id = SessionHandler.get_user_id()
     user_name = Faculty.objects.get(employee_id=user_id).name
@@ -123,7 +138,8 @@ def guide_allot(request):
 
 
 def guide_select(request):
-    spreadsheet_module.update_faculty_records()
+    if is_connected():
+        spreadsheet_module.update_faculty_records()
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')

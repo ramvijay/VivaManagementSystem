@@ -18,4 +18,12 @@ jQuery(document).ready(function ($) {
              window.location = "/login";
          });
     });
+	if(navigator.onLine){
+		$("#online-status").html("  (online)");
+		$("#online-status").css("color","lightgreen");
+	}else{
+		$("#online-status").html("  (offline)");
+		$("#online-status").css("color","red");
+	}
+
 });
