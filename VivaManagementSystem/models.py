@@ -1,6 +1,4 @@
 from django.db import models
-from django.conf import settings
-
 
 class VMS_Session(models.Model):
     SEM_CHOICES = (

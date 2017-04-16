@@ -12,6 +12,7 @@ class SessionVariableKeys(Enum):
     """
     USER_ID = 'user_id',
     USER_ROLE = 'user_role',
+    USER_COURSE_ID = 'course_id'
     IS_LOGGED_IN = 'is_logged_in',
     LAST_ACTIVE = 'last_active'
 
@@ -47,8 +48,9 @@ class SessionHandler:
         SessionHandler.__set_session_var(SessionVariableKeys.LAST_ACTIVE, datetime.now())
         SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, user_obj.user_id)
         SessionHandler.__set_session_var(SessionVariableKeys.USER_ROLE, user_obj.user_role)
+        SessionHandler.__set_session_var(SessionVariableKeys.USER_COURSE_ID, user_obj.course_id)
 
-       # print(user_obj[0].user_id)
+        # print(user_obj[0].user_id)
         # SessionHandler.__session_obj['is_logged_in'] = True
         # SessionHandler.__session_obj['last_active'] = datetime.now()
         # SessionHandler.__session_obj['user_id'] = user_obj.user_id
@@ -103,6 +105,15 @@ class SessionHandler:
         :return: ID of the logged in user
         """
         return SessionHandler.__get_session_var(SessionVariableKeys.USER_ID)
+
+    @staticmethod
+    def get_user_course_id():
+        """
+        Returns the user_id from the stored session.
+        :return: ID of the logged in user
+        """
+        return SessionHandler.__get_session_var(SessionVariableKeys.USER_COURSE_ID)
+
 
     @staticmethod
     def logout_user():

@@ -10,7 +10,6 @@ class SetConfigsAJAXHandler(IAJAXHandler):
         :param http_request:
         :return: string JSON reply
         """
-        print(http_request.POST)
         config_settings = json.loads(http_request.POST['configs'])
         config_manager = ConfigurationManager.get_instance()
         for config in config_settings:

@@ -47,7 +47,6 @@ def index(request):
         return redirect('/login/')
     template = loader.get_template('newVMS/page_index.html')
     user_id = SessionHandler.get_user_id()
-    print(user_id)
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
@@ -118,15 +117,17 @@ def guide_allot(request):
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
     if len(tutors) == 0:
         course_name = "ADMIN VIEW"
+        course_id = "-1"
     else:
         course_name = tutors[0].course.course_name
-
+        course_id = SessionHandler.get_user_course_id()
     context = {
         'userid'  :user_id,
         'username': user_name,
         'userrole': user_role,
         'pagename': 'VMS-GuideAllot',
         'course_name':course_name,
+        'course_id':course_id,
         'css_files': [
             "/static/newVMS/styles/guide-allot.css"
         ],
@@ -242,3 +243,10 @@ def about(request):
         ]
     }
     return HttpResponse(template.render(context, request))
+
+def chatBot(request):
+    template = loader.get_template('newVMS/vBot.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+

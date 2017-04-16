@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^students',views.student_list),
     url(r'^about', views.about),
     url(r'^ajax/(?P<ajax_call>[a-zA-Z_]+)/$', views.ajax),
+    url(r'^chatroom/$', views.chatBot)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

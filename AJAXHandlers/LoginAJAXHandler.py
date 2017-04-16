@@ -3,7 +3,7 @@ Method for handling the AJAX Login requests
 """
 import json
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import User
+from VivaManagementSystem.models import User, Tutor
 from util.SessionHandler import SessionHandler
 
 
@@ -24,6 +24,11 @@ class LoginAJAXHandler(IAJAXHandler):
         result['status'] = 'fail'
         try:
             user_obj = User.objects.get(user=userid, user_pass=password)
+            tutor = Tutor.objects.select_related('faculty').filter(faculty=userid)
+            if(len(tutor) > 0):
+                course_id = tutor[0].course.course_id
+            user_obj.course_id = course_id
+            result['course_id'] = course_id
             result['status'] = 'success'
             result['role'] = user_obj.user_role
             SessionHandler.login_user(user_obj)

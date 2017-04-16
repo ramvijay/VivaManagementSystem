@@ -5,20 +5,24 @@ var map_dict = {};
 var green_bound = 0;
 var orange_bound = 6;
 var tutor_id;
-
 var rollno_detail_map = {}
 var empid_detail_map = {}
 
+var globalRemainingCount;
+
 jQuery(document).ready(function ($) {
     tutor_id = $("#tutor-id").val();
+    course_id = $("#course-id").val();
     $.ajax({
-       url: '/ajax/get_student_list',
+       url: '/ajax/get_student_list?course_id='+course_id,
 
        error: function(err) {
           alert("Get Student List Ajax Error " +err.responseText);
        },
        success: function(data) {
-            UpdateStudentList(data)
+            data = jQuery.parseJSON(data);
+            UpdateStudentList(data);
+            globalRemainingCount = data.result.length;
             $("#student-list").mCustomScrollbar({theme:"3d"});
 
        },
@@ -48,8 +52,18 @@ jQuery(document).ready(function ($) {
                    }
 
                    map_data.map_data = jQuery.parseJSON(map_data.map_data);
-                   data = $.extend(data,map_data)
-                   UpdateFacultyList(data)
+                   data = $.extend(data,map_data);
+                   UpdateGuideList(data);
+                   $.each(map_dict,function(i,item){
+                        $.each(item,function(j,inner_item){
+                            if(inner_item.tutor == tutor_id){
+                                stud = $("#"+inner_item.student).parent();
+                                stud.hide();
+                                globalRemainingCount--;
+                                stud_dict[inner_item.student] = stud;
+                            }
+                        })
+                    });
                    $("#faculty-list").mCustomScrollbar({theme:"3d"});
 
                },
@@ -59,38 +73,37 @@ jQuery(document).ready(function ($) {
        },
        type: 'GET'
     });
-    $(document).ajaxStop(function () {
-        $.each(map_dict,function(i,item){
-            $.each(item,function(j,inner_item){
-                if(inner_item.tutor == tutor_id){
-                    stud = $("#"+inner_item.student).parent();
-                    stud.hide();
-                    stud_dict[inner_item.student] = stud;
-                }
-            })
-        });
-    });
-    $("#confirm-allot").on("click",function(){
 
+    $("#confirm-allot").on("click",function(){
+        if(globalRemainingCount>0){
+            alert("Students are yet to be allotted, before you can confirm");
+            return;
+        }
         alert("Are you sure this is the final guide allotment ");
         print_array= [];
         $.map(map_dict,function (value,key) {
             if (value.length > 0) {
                 $.each(value, function (i, item) {
-
-                    print_array.push({roll_no:item.student,stud_name:rollno_detail_map[item.student].name,
-                        organization:rollno_detail_map[item.student].organization_name,guide_name:empid_detail_map[key].name,
+                    print_array.push({roll_no:item.student,stud_name:item.studentObj.name,
+                        organization:item.studentObj.organization_name,guide_name:empid_detail_map[key].name,
                         guide_short_name:empid_detail_map[key].short_name});
                 });
             }
         });
-    });
+        buildHtmlTable(print_array,"#map_data_table");
+        var printContent = $('#map_data_table_wrapper')[0].innerHTML;
+        $('#map_data_table_wrapper').remove();
+        $('#map_data_table').remove();
+        win = window.open();
+        $(win.document.body).html(printContent);
+        win.print();
+
+     });
 });
 
 
-function UpdateStudentList(data){
+function UpdateStudentList(data) {
     var student;
-    data = jQuery.parseJSON(data);
     $.each(data.result, function(i, item) {
           rollno_detail_map[item.roll_no] = item;
           student = '<div class="w3-card-4 card-margin  draggable "> <header id ='+item.roll_no+' class="w3-container w3-green"> <h4 class="student-roll">'+item.roll_no+'</h4> </header> <div class="w3-container custom-color-cream"> <div class="pull-left"> <strong>'+item.name+'</strong> </div><div class="pull-left organization-name">'+item.organization_name+'</div> <div class="area-of-interest pull-left"> <small>'+item.domain_key_word+'</small> </div> </div> </div>'
@@ -106,14 +119,13 @@ function UpdateStudentList(data){
     });
 }
 
-
-function UpdateFacultyList(data){
+function UpdateGuideList(data){
     var faculty;
     recommended_count = data.rc;
     orange_bound = recommended_count;
     $.each(data.result, function(i, item) {
         empid_detail_map[item.pk] = item.fields;
-        if(item.fields.areas_of_interest.length > 63){
+        if(item.fields.areas_of_interest.length > 63) {
             item.fields.areas_of_interest = item.fields.areas_of_interest.substr(0,60)+'...';
         }
         no_of_allocated = Object.keys(data.map_data[item.pk]).length;
@@ -137,7 +149,6 @@ function UpdateFacultyList(data){
     });
 }
 
-
 $("#mapping-list").on('click','button',function () {
     var emp_id = $(this).parent().find('.emp-id').val();
     var alloted_count = $(this).parent().find('.alloted-count').text();
@@ -160,6 +171,7 @@ $("#mapping-list").on('click','span',function () {
     var strVal = $(this).parent().html();
     rollNo = jQuery.trim(strVal.substr(0, strVal.indexOf('<span')));
     emp_id = $(this).parent().parent().parent().find('.emp-id').val();
+    globalRemainingCount++;
     stud_dict[rollNo].show();
     index = map_dict[emp_id].map(function(e) { return e.student; }).indexOf(rollNo);
     map_dict[emp_id].splice(index,1);
@@ -199,6 +211,7 @@ $("#mapping-list").on('click','span',function () {
        }
     });
 });
+
 function AddFacultyToMappingPane(cmp){
         var short_name = cmp.parent().find('.short-name').text().trim();
         var alloted_count =  cmp.parent().find('.alloted-count').text().trim();
@@ -234,11 +247,12 @@ function AddFacultyToMappingPane(cmp){
             hoverClass: "cell-highlght",
             tolerance: "pointer",
             drop: function(event, ui) {
-                var rollNo= jQuery.trim((ui.draggable).children(":first").text());
+                var rollNo = jQuery.trim((ui.draggable).children(":first").text());
                 var emp_id = $(this).find('.emp-id').val();
                 $(this).find('.mapped-stud-list').append('<div class="stud-grid">'+rollNo+'<span class="close-btn">X</span></div>');
                 alloted_count = parseInt($(this).find('.alloted-count').text().trim(),10)+1;
-                map_dict[emp_id].push({student:rollNo,tutor:tutor_id});
+                globalRemainingCount--;
+                map_dict[emp_id].push({student:rollNo,tutor:tutor_id,studentObj:{name:rollno_detail_map[rollNo].name,organization_name:rollno_detail_map[rollNo].organization_name}});
                 $(this).find('.mapped-stud-list').removeClass("empty-container");
                 map_dict_string = JSON.stringify({guide:emp_id,student:rollNo,tutor:tutor_id});
                 var faculty_element = $(this);
@@ -297,3 +311,30 @@ function AddFacultyToMappingPane(cmp){
             }
         });
 }
+
+function buildHtmlTable(data,selector){
+    $(selector).bootstrapTable({
+        columns: [{
+            field: 'roll_no',
+            title: 'Roll No'
+        }, {
+            field: 'stud_name',
+            title: 'Name'
+        }, {
+            field: 'organization',
+            title: 'Organization'
+        },{
+            field: 'guide_name',
+            title: 'Guide'
+        },{
+            field: 'guide_short_name',
+            title: 'Short Name'
+        }
+
+        ],
+        data: data
+    });
+}
+
+
+

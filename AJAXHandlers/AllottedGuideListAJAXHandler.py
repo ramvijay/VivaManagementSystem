@@ -6,6 +6,8 @@ from util import SessionHandler
 
 
 class AllottedGuideListAJAXHandler(IAJAXHandler):
+
+
     def handle_request(self, http_request):
         user_role = SessionHandler.get_user_role()
 
@@ -25,20 +27,23 @@ class AllottedGuideListAJAXHandler(IAJAXHandler):
                 tutor = None
                 course = None
 
-                @staticmethod
-                def serialize(obj):
-                    return {
-                        "student": obj.student,
-                        "tutor": obj.tutor,
-                      #  "course":obj.course
-                    }
+
             for data in mapped_data:
                 student_obj = student_detail()
-                student_obj.student = data.student.roll_no
+                student_obj.student = data.student
                 student_obj.tutor = data.tutor.faculty.employee_id
                 student_obj.course = data.tutor.course.course_name
                 mapped_students.append(student_obj)
             mapped_students.sort(key=lambda x: x.course, reverse=False)
             map_dict[iter_guide.employee_id] = mapped_students
 
-        return JsonResponse({'map_data': json.dumps(map_dict, default=student_detail.serialize)})
+        return JsonResponse({'map_data': json.dumps(map_dict, default=AllottedGuideListAJAXHandler.serialize)})
+
+    @staticmethod
+    def serialize(obj):
+        return {
+            "student" : obj.student.roll_no,
+            "studentObj": dict(name=obj.student.name,organization_name=obj.student.organization_name),
+            "tutor": obj.tutor
+            #  "course":obj.course
+        }

@@ -10,6 +10,8 @@
 			<!-- Panel Page Dashboard Content: -->
 			<div class="content" id="page-content">
                 <input type="hidden" id="tutor-id" value={{ userid }}>
+                <input type="hidden" id="course-id" value={{ course_id }}>
+
                 <div id = "left-pane">
                      <div class="box">
                          <div class="container-4">
@@ -41,10 +43,14 @@
                      </div>
                     <div id="student-list"></div>
                 </div>
-                <button type="button" class="btn btn-primary confirm-button" id="confirm-allot">CONFIRM</button>
-			</div>
+                <button type="button" class="btn btn-primary confirm-button"  id="confirm-allot">CONFIRM</button>
+			    <div id="map_data_table_wrapper">
+                    <table id="map_data_table" border="1" ></table>
+                </div>
+            </div>
 		</div>
 	</div>
+
 	<!-- /#content: The Main Content Section -->
 <!-- /.container-fluid#container -->
 {% include "newVMS/footer.html" %}
