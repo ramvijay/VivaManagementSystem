@@ -1,4 +1,65 @@
+/**
+ * Required Parsing / Data set creation logics
+ */
+/**
+ * Converts from RGB to hex color code for use in ChartJS
+ */
+function rgbToHex(red, green, blue) {
+    return '#' + ('0' + parseInt(red).toString(16)).slice(-2) +
+                 ('0' + parseInt(green).toString(16)).slice(-2) +
+                 ('0' + parseInt(blue).toString(16)).slice(-2);
+}
+
+/**
+ * Returns a number between 0 - 255
+ */
+function getRandomSingleColorValue() {
+    return Math.floor(Math.random() * 255);
+}
+
+/**
+ * Creates a list of random color combinations.
+ */
+function createRandomColors(numColors) {
+    var colorList = [];
+    for (var colorGenIter = 0; colorGenIter < numColors; colorGenIter++) {
+        colorList.push(rgbToHex(getRandomSingleColorValue(), getRandomSingleColorValue(), getRandomSingleColorValue()));
+    }
+    return colorList;
+}
+
+/**
+ * Parses the JSON data to the required format (accepted by ChartJS).
+ */
+function parseGenericJSONData(jsonData) {
+    if (jsonData === undefined) { return undefined; }
+    var labels = [];
+    var values = [];
+    jsonData.forEach(entry => {
+        labels.push(entry.label);
+        values.push(entry.value);
+    });
+    var totalCount = labels.length;
+    var colorList = createRandomColors(totalCount);
+    console.log(colorList);
+    return {
+        labels: labels,
+        datasets: [
+            {
+                data: values,
+                backgroundColor: colorList
+            }
+        ]
+    }
+}
+
+// Turning of legend display
+Chart.defaults.global.legend.position = 'bottom';
+
 $(document).ready(function(){
+    /**
+     * Pie chart representing the Distribution of the Students based on the Company.
+     */
     $.ajax({
         url: '/ajax/student_company_graph',
         type: 'GET',
@@ -6,11 +67,12 @@ $(document).ready(function(){
             alert("Get Student Location Graph Ajax Error " + err.responseText);
         },
         success: function (data) {
-            jsonData = jQuery.parseJSON(data);
-            window.studentCityDistribution = new Morris.Donut({
-                // ID of the element in which to draw the chart.
-                element: 'studentCompanyDist',
-                data: jsonData
+            var jsonData = jQuery.parseJSON(data);
+            var canvas = document.getElementById('studentCompanyDistCanvas');
+            var ctx = canvas.getContext('2d');
+            var studentCompanyDistChart = new Chart(ctx, {
+                type: 'pie',
+                data: parseGenericJSONData(jsonData)
             });
         }
     });
@@ -22,22 +84,24 @@ $(document).ready(function(){
         },
         success: function (data) {
             jsonData = jQuery.parseJSON(data);
-            window.studentCityDistribution = new Morris.Donut({
-                // ID of the element in which to draw the chart.
-                element: 'studentCityDistribution',
-                data: jsonData
+            var canvas = document.getElementById('studentCityDistCanvas');
+            var ctx = canvas.getContext('2d');
+            var studentLocationDistChart = new Chart(ctx, {
+                type: 'pie',
+                data: parseGenericJSONData(jsonData)
             });
         }
     });
-    window.studentCompanyDist = new Morris.Donut({
-        // ID of the element in which to draw the chart.
-        element: 'studentVivaAllotStatus',
-        data: [
+    var canvas = document.getElementById('studentVivaAllotStatusCanvas');
+    var ctx = canvas.getContext('2d');
+    var studentVivaStatusChart = new Chart(ctx, {
+        type: 'pie',
+        data: parseGenericJSONData([
             { label : "Report Submitted", value : 13},
             { label : "Report Not Submitted", value : 20},
             { label : "Viva Scheduled", value : 2},
             { label : "Viva Completed", value : 4}
-        ]
+        ])
     });
     // This is to fill the Tutor class details
     $.ajax({

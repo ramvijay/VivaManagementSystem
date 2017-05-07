@@ -1,10 +1,19 @@
 html,body {
-    background: black;
+    background: #2A3F54;
     height: 100%;
 }
-#content{
-    height: 90%;
+
+#content {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: calc(100% - 30px);
+    width: 100%;
+    padding: 10px;
+    display: block;
+    margin-top: 30px;
 }
+
 #config-accordion{
     margin-top:5%;
     margin-left:3%;
@@ -43,4 +52,21 @@ html,body {
 
 hr {
     border: 1px dashed #101010;
+}
+
+/**
+ * Stuff related to TAbs
+ */
+.tab-page {
+    background: white;
+    padding: 20px !important;
+    height: 100%;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-center-align {
+    align-self: center;
 }

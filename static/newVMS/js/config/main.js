@@ -28,15 +28,6 @@ var _LoadCourses = function() {
     /**
      * Method for loading the courses into the DIV
      */
-    /*$.post('/ajax/get_config/', { config_key : 'Courses' }, function(data)  {
-        var jsonCourseData = JSON.parse(data);
-        $.post('/ajax/get_config/', { config_key : 'ShortNames' }, function(data) {
-            var jsonShortNamesData = JSON.parse(data);
-            $.each(jsonCourseData.result, function( i, item ){
-                _AddCourseDOM(_CreateCourseDOM(item + ' ( ' + jsonShortNamesData.result[item] + ' )'));
-            });
-        });
-    });*/
     $.ajax({
         url: '/ajax/get_course_list',
         type: 'GET',
@@ -44,106 +35,50 @@ var _LoadCourses = function() {
             alert("Get Course List Ajax Error " + err.responseText);
         },
         success: function (data) {
-           data = jQuery.parseJSON(data);
+            data = jQuery.parseJSON(data);
             $.each(data.result,function(i,item){
-                full_name = item.fields.course_name + " ( "+ item.fields.short_name+" )"
-                 _AddCourseDOM(_CreateCourseDOM(full_name))
+                full_name = item.fields.course_name + " ( " + item.fields.short_name + " )";
+                _AddCourseDOM(_CreateCourseDOM(full_name));
             });
         }
     });
 };
 
-var _SetPageOpenStatus = function() {
-    /**
-     * Sets the open / closed status of the various pages in the configuration
-     */
-    if (window.config_page_open_status != undefined) {
-        for( var pageIter = 0; pageIter < window.config_pages; pageIter++) {
-            if (window.config_page_open_status[pageIter] != undefined) {
-                if (window.config_page_open_status[pageIter]) {
-                    window.config_accordion.enable(pageIter + 1);
-                } else {
-                    window.config_accordion.disable(pageIter + 1);
-                }
-            }
-        }
-    }
-};
-
-var _LoadConfigPageSettings = function() {
-    /**
-     * Disable the pages based on the data already filled. Needs server configuration.
-     */
-    $.post('/ajax/config_page_open_status/', {}, function(data){
-        var jsonData = JSON.parse(data);
-        window.config_page_open_status = jsonData.page_status;
-        _SetPageOpenStatus();
-        _LoadConfigPageData(0);
-    });
-};
-
+/**
+ * Configuration data of the currently selected.
+ */
 var _LoadConfigPageData = function(selected_page) {
-    /**
-     * Loads the configurations for the selected page.
-     */
-    if (!window.config_page_data_loaded[selected_page]) {
-        window.config_page_data_load_func[selected_page]();
-        window.config_page_data_loaded[selected_page] = true;
-    }
+    window.config_page_data_load_func[selected_page]();
 };
 
 /**
  * Used to store the data loaded settings.
  */
-window.config_page_data_loaded = [false, false, false, false, false];
 window.config_page_data_load_func = [];
-window.config_page_open_status = [];
-window.config_pages = 6;
+window.config_pages = 3;
 
 /**
  * Custom data loaders for each of the various pages
  */
 window.config_page_data_load_func[0] = function() {
-    //Get the current session and semester.
-    /*$.post(_AJAX_CONFIG_PAGE, {config_key : 'Session_Year'}, function(data){
+    $.post('/ajax/vms_session/', { action: 'get', session_year: '', session_sem: ''}, function(data) {
         var jsonData = JSON.parse(data);
-        console.log(jsonData);
-        if(jsonData.result != 'None') {
-            $('#session_year').val(jsonData.result);
-        }
-    });
-    $.post(_AJAX_CONFIG_PAGE, {config_key : 'Session_Semester'}, function(data){
-        var jsonData = JSON.parse(data);
-        if(jsonData.result != 'None') {
-            if(jsonData.result == 'even') {
-                $('#session_sem').val('Even Semester');
+        if (jsonData.result != 'none') {
+            jsonData = JSON.parse(jsonData.result);
+            $('#session_year').val(jsonData[0].fields.session_year);
+            Materialize.updateTextFields();
+            if (jsonData[0].fields.session_sem == 'even') {
+                $('#session_sem').val('even')
             } else {
-                $('#session_sem').val('Odd Semester');
+                $('#session_sem').val('odd')
             }
         }
-    });*/
-
-      $.post('/ajax/vms_session/',{action:'get',session_year:'',session_sem:''},function(data){
-            var jsonData = JSON.parse(data);
-            if(jsonData.result!='none'){
-                jsonData = JSON.parse(jsonData.result);
-                $('#session_year').val(jsonData[0].fields.session_year);
-                if(jsonData[0].fields.session_sem == 'even') {
-
-                     $('#session_sem').val('even')
-                }else{
-                     $('#session_sem').val('odd')
-
-                }
-           }
-        });
-
-
-
+    });
 };
 
-update_course_page_2 = function() {
+window.config_page_data_load_func[1] = function() {
     //Loads the Table setting the Tutors
+    $('#class-tutor-alloc-data').html('');
     $.ajax({
         url: '/ajax/get_course_list/',
         type: 'GET',
@@ -160,37 +95,35 @@ update_course_page_2 = function() {
                 $('#class-tutor-alloc-data').html(currentHtml + newHtml);
             });
             $.ajax({
-            url:'/ajax/tutor_setup_config/',
-            type:'POST',
-            data: {action:'GET'},
-            success: function(data) {
-                data = JSON.parse(data)
-                data_set = JSON.parse(data.result)
-                $.each(data_set,function(i,item) {
-
-                    $('#'+i+"_student_count").val(item.fields.strength)
-                    $('#'+i+"_tutor").val(item.fields.tutor)
-                    $('#'+i+"_group_mail").val(item.fields.email_id)
-                });
-            }
-        });
+                url: '/ajax/tutor_setup_config/',
+                type: 'POST',
+                data: {action: 'GET'},
+                success: function(data) {
+                    data = JSON.parse(data);
+                    data_set = JSON.parse(data.result);
+                    $.each(data_set,function(i,item) {
+                        $('#' + i + "_student_count").val(item.fields.strength)
+                        $('#' + i + "_tutor").val(item.fields.tutor)
+                        $('#' + i + "_group_mail").val(item.fields.email_id)
+                    });
+                }
+            });
         }
     });
 }
 
-window.config_page_data_load_func[1] = update_course_page_2;
-
-
 $(document).ready(function(){
-    window.config_accordion = $('#config-accordion').accordionjs();
-    _LoadConfigPageSettings();
-    $('#config-accordion > li').on('click', '.accordionjs-select', function() {
+    window.config_tabs = $('ul.tabs').tabs();
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+
+    _LoadConfigPageData(0);
+    $('#config_tabs_header li').on('click', function() {
         /**
          * Used for loading the data for the first time.
          */
-        var selected_index = $(this).val();
-        _LoadConfigPageData(selected_index);
-
+        _LoadConfigPageData($(this).data('page'));
     });
 
     // START PAGE 1
@@ -206,7 +139,7 @@ $(document).ready(function(){
         //TODO Change it to the required format
         courseName = courseName.substr(0, courseName.indexOf(' ('));
         var course_dom = this;
-        $.post('/ajax/course_modification/', {action: 'remove', course: courseName, shortName : '',degree:''}, function (data) {
+        $.post('/ajax/course_modification/', {action: 'remove', course: courseName, shortName : '', degree:''}, function (data) {
             var jsonData = JSON.parse(data);
             if(jsonData.result == 'fail') {
                 toastr.warn("Something went wrong. Try again.");
@@ -235,7 +168,7 @@ $(document).ready(function(){
                 toastr.error('Error occurred. Try again.');
             } else {
                 toastr.success('Course Added');
-                full_course = degree + " "+course
+                full_course = course
                 _AddCourseDOM(_CreateCourseDOM(full_course + ' ( ' + courseShortName + ' )'));
                 $('#config_add_course_name').val('');
                 $('#config_add_course_short_name').val('');
@@ -252,21 +185,7 @@ $(document).ready(function(){
          */
         var session_year = $('#session_year').val();
         var session_sem = $('#session_sem').val();
-        //Lets do some sanity checks first.
-        /*
-        //Send the data so that it can be registered
-        var configs = [];
-        configs[0] = { config_key : 'Session_Year', config_value : session_year };
-        configs[1] = { config_key : 'Session_Sem', config_value : session_sem };
-        $.post(_AJAX_CONFIG_SET_PAGE, {'configs' : JSON.stringify(configs)}, function(data){
-            var jsonData = JSON.parse(data);
-            if(jsonData.status == 'success') {
-                toastr.success("Configuration settings changed.");
-            } else {
-                toastr.error("Something went wrong. Try again.");
-            }
-        });*/
-        if(session_year == ''||session_sem==''){
+        if(session_year == '' || session_sem == ''){
             toastr.error("Session year and semester must be entered . Try Again !");
             return;
         }
@@ -283,11 +202,7 @@ $(document).ready(function(){
     });
     // END PAGE 1
     // START PAGE 2
-
-
-
     $('#config_page_2_submit').on('click', function(){
-
         var tbl = $('#config-2-table tr').get().map(function(row) {
               return $(row).find('td').get().map(function(cell) {
                     if($(cell).find('input').val()==null){

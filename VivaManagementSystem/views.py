@@ -63,11 +63,14 @@ def index(request):
         'js_files': [
             '/static/newVMS/js/charts/raphaeljs.min.js',
             '/static/newVMS/js/charts/morris.min.js',
+            '/static/newVMS/js/charts/chartjs.min.js',
+            '/static/newVMS/js/materialize.min.js',
             '/static/newVMS/js/index/chartDrawing.js'
         ],
         'css_files' : [
-            '/static/newVMS/styles/index/custom.css',
-            '/static/newVMS/styles/index/morris.css'
+            '/static/newVMS/styles/index/morris.css',
+            '/static/newVMS/styles/materialize.min.css',
+            '/static/newVMS/styles/index/custom.css'
         ]
     }
     return HttpResponse(template.render(context, request))
@@ -93,12 +96,13 @@ def config(request):
         'pagename': 'VMS-Config',
         'course_name': course_name,
         'js_files': [
-            '/static/newVMS/js/config/main.js',
-            '/static/newVMS/js/accordion/jquery.accordionjs.js'
+            '/static/newVMS/js/materialize.min.js',
+            '/static/newVMS/js/accordion/jquery.accordionjs.js',
+            '/static/newVMS/js/config/main.js'
         ],
         'css_files': [
-            '/static/newVMS/styles/config/main.css',
-            '/static/newVMS/styles/accordion/jquery.accordionjs.css'
+            '/static/newVMS/styles/materialize.min.css',
+            '/static/newVMS/styles/config/main.css'
         ]
     }
     return HttpResponse(template.render(context, request))

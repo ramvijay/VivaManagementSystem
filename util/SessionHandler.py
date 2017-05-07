@@ -24,7 +24,7 @@ class SessionHandler:
     # Variable that stores the session object of the current request
     __session_obj = None
     # Validity time for the session
-    __SESSION_VALID_TIME = 60 * 15
+    __SESSION_VALID_TIME = 60 * 30
 
     @staticmethod
     def set_session_obj(session_obj):

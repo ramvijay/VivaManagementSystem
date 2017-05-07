@@ -25,7 +25,9 @@ class LoginAJAXHandler(IAJAXHandler):
         try:
             user_obj = User.objects.get(user=userid, user_pass=password)
             tutor = Tutor.objects.select_related('faculty').filter(faculty=userid)
-            if(len(tutor) > 0):
+            # This is causing a error since the logged in faculty could also be an Admin / Viva Coordinator who is not a tutor for any course
+            course_id = None
+            if len(tutor) > 0:
                 course_id = tutor[0].course.course_id
             user_obj.course_id = course_id
             result['course_id'] = course_id
