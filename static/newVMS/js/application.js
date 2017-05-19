@@ -25,5 +25,19 @@ jQuery(document).ready(function ($) {
 		$("#online-status").html("  (offline)");
 		$("#online-status").css("color","red");
 	}
+	$("#sync_data").click(function(){
+		$.ajax({
+		   url: '/ajax/sync_data',
 
+		   error: function(err) {
+			  alert("Error syncing data, try again");
+		   },
+		   success: function(data) {
+		   	  if(data != null) {
+				  alert("Data synced successfully");
+              }
+		   },
+		   type: 'GET'
+    	});
+	});
 });

@@ -16,7 +16,7 @@ class UpdateAllottedGuideListAJAXHandler(IAJAXHandler):
             .exclude(tutor=Tutor.objects.get(faculty_id=map_dict['tutor'])))
         #print(map_dict)
         print(map_dict['student'])
-        map_record = GuideStudentMap(session=VMS_Session.objects.get(session_id=1),
+        map_record = GuideStudentMap(session=VMS_Session.objects.get(is_current=1),
                                      guide=Faculty.objects.get(employee_id=map_dict["guide"]),
                                      student=Student.objects.get(roll_no=map_dict['student']),
                                      tutor=Tutor.objects.get(faculty_id=map_dict['tutor']))

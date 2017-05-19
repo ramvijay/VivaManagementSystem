@@ -9,6 +9,7 @@ from AJAXHandlers.ConfigAJAXHandler import ConfigAJAXHandler
 from AJAXHandlers.SetConfigsAJAXHandler import SetConfigsAJAXHandler
 from AJAXHandlers.FacultyListAJAXHandler import FacultyListAJAXHandler
 from AJAXHandlers.StudentAJAXHandler import StudentAJAXHandler
+from AJAXHandlers.SyncDataAJAXHandler import SyncDataAJAXHandler
 from AJAXHandlers.TutorSetupConfigAJAXHandler import TutorSetupConfigAJAXHandler
 from AJAXHandlers.UpdateGuidesAJAXHandler import UpdateGuidesAJAXHandler
 from AJAXHandlers.AllottedGuideListAJAXHandler import AllottedGuideListAJAXHandler
@@ -70,4 +71,6 @@ class AJAXHandlerFactory:
             return TutorDetailsAJAXHandler()
         elif ajax_call == 'index_guide_data':
             return GuideAllotmentStatusAJAXHandler()
+        elif ajax_call == "sync_data":
+            return SyncDataAJAXHandler()
         return None

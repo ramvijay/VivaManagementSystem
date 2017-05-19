@@ -101,6 +101,7 @@ class User(models.Model):
     user = models.ForeignKey(Faculty)
     user_pass = models.CharField(max_length=150)
     user_role = models.CharField(max_length=50)
+    logged_in_time = models.DateTimeField(null=True, blank=True, default=None)
 
     class Meta:
         db_table = 'User'

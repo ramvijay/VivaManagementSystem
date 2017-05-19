@@ -5,26 +5,14 @@ File that is used to process all the view request
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect
-from VivaManagementSystem.models import Tutor
+from VivaManagementSystem.models import Tutor, User
 from VivaManagementSystem.models import Faculty
 from AJAXHandlers import AJAXHandlerFactory
+from util import GenericUtil
 from util import SessionHandler
+from datetime import datetime
 from util import spreadsheet_module
-import socket
 
-
-def is_connected():
-    try:
-        # see if we can resolve the host name -- tells us if there is
-        # a DNS listening
-        host = socket.gethostbyname("www.google.com")
-        # connect to the host -- tells us if the host is actually
-        # reachable
-        s = socket.create_connection((host, 80), 2)
-        return True
-    except:
-        pass
-    return False
 
 def login(request):
     SessionHandler.set_session_obj(request.session)
@@ -45,6 +33,12 @@ def index(request):
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
+    current_user = User.objects.get(user_id=SessionHandler.get_user_id())
+    last_logged_in = current_user.logged_in_time
+    if GenericUtil.is_connected():
+        spreadsheet_module.update_database(last_logged_in)
+        current_user.logged_in_time = datetime.now()
+        current_user.save()
     template = loader.get_template('newVMS/page_index.html')
     user_id = SessionHandler.get_user_id()
     user_name = Faculty.objects.get(employee_id=user_id).name
@@ -112,8 +106,6 @@ def guide_allot(request):
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
-    if is_connected():
-        spreadsheet_module.update_student_records()
     template = loader.get_template('newVMS/page_guide_allot.html')
     user_id = SessionHandler.get_user_id()
     user_name = Faculty.objects.get(employee_id=user_id).name
@@ -148,9 +140,7 @@ def guide_select(request):
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
-    template = loader.get_template('newVMS/page_guide_allot.html')
     user_id = SessionHandler.get_user_id()
-    print(user_id)
     user_name = Faculty.objects.get(employee_id=user_id).name
     user_role = SessionHandler.get_user_role()
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)

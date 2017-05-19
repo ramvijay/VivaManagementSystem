@@ -1,13 +1,16 @@
+from datetime import datetime
+
 import gspread
 import pandas as pd
 import json
 from oauth2client.client import SignedJwtAssertionCredentials
-from VivaManagementSystem.models import Faculty
+from VivaManagementSystem.models import Faculty, VMS_Session
 from VivaManagementSystem.models import Student
 from VivaManagementSystem.models import Course
 #-------------------Donot change the code above this line---------------------------------
 
-def update_faculty_records():
+
+def update_faculty_records(last_logged_time):
     SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
     FILEURL = "https://docs.google.com/spreadsheets/d/1nlYqgnmxiLfkGiIEyBUZ4IlFOVTrwok4WUMBHFFl84c/edit#gid=1604066109"
     SCOPE = ['https://spreadsheets.google.com/feeds']
@@ -19,29 +22,39 @@ def update_faculty_records():
     workbook = gc.open_by_url(FILEURL)
     # Get the first sheet
     sheet = workbook.sheet1
+    last_updated_date = datetime.strptime(sheet.updated[:-1],'%Y-%m-%dT%H:%M:%S.%f')
+    last_updated_date = last_updated_date.replace(tzinfo=None)
+    if last_logged_time is not None:
+        last_logged_time = last_logged_time.replace(tzinfo=None)
+        if last_logged_time > last_updated_date:
+            print("up to date")
+            return
+
+    print("updating faculty data")
     # Extract all data into a dataframe
     faculty_data = pd.DataFrame(sheet.get_all_records())
     num_db_records = len(Faculty.objects.all())
     try:
         # Append rows to the Database
         for index, row in faculty_data.loc[num_db_records:].iterrows():
-             model = Faculty()
-             model.title = row['Title']
-             model.name =  row['Full Name'].upper()
-             model.designation = row['Designation']
-             model.short_name = row['Short Name used in Department'].upper()
-             model.employee_id = row['Employee ID'].upper()
-             model.core_competency = row['Core Competency']
-             model.is_guide = 0
-             model.students_allocated = 0
-             model.email_id = row['E-mail ID']
-             model.areas_of_interest = row['Area of Interest for project guidance']
-             model.phone_number = row['Phone number']
-             model.save()
+            model = Faculty()
+            model.title = row['Title']
+            model.name =  row['Full Name'].upper()
+            model.designation = row['Designation']
+            model.short_name = row['Short Name used in Department'].upper()
+            model.employee_id = row['Employee ID'].upper()
+            model.core_competency = row['Core Competency']
+            model.is_guide = 0
+            model.students_allocated = 0
+            model.email_id = row['E-mail ID']
+            model.areas_of_interest = row['Area of Interest for project guidance']
+            model.phone_number = row['Phone number']
+            model.save()
     except:
         pass
 
-def update_student_records():
+
+def update_student_records(last_logged_time):
     SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
     STUDENTS_FILEURL = "https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263"
     ''' Extracts all the values from the first sheet of the given URL and
@@ -55,6 +68,15 @@ def update_student_records():
     workbook = gc.open_by_url(STUDENTS_FILEURL)
     # Get the first sheet
     sheet = workbook.sheet1
+    last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
+    last_updated_date = last_updated_date.replace(tzinfo=None)
+    if last_logged_time is not None:
+        last_logged_time = last_logged_time.replace(tzinfo=None)
+        if last_logged_time > last_updated_date:
+            print("up to date")
+            return
+
+    print("updating student data")
     # Extract all data into a dataframe
     student_data = pd.DataFrame(sheet.get_all_records())
     num_db_records = Student.objects.all().count()
@@ -81,6 +103,12 @@ def update_student_records():
             model.domain_key_word = row["Project's Domain Key words"]
             model.project_title = row['Tentative Project Title']
             model.join_date = row['Joined Date']
+            model.session = VMS_Session.objects.get(is_current=1)
             model.save()
     except IndexError:
         pass
+
+
+def update_database(last_logged_time):
+    update_faculty_records(last_logged_time)
+    update_student_records(last_logged_time)
