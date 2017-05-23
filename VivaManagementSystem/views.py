@@ -135,8 +135,6 @@ def guide_allot(request):
 
 
 def guide_select(request):
-    if is_connected():
-        spreadsheet_module.update_faculty_records()
     SessionHandler.set_session_obj(request.session)
     if not SessionHandler.is_user_logged_in():
         return redirect('/login/')
