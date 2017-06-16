@@ -4,6 +4,7 @@
 .idea/VivaManagementSystem.iml
 .idea/workspace.xml
 .idea/
+.vscode
 VivaManagementSystem/**/*.pyc
 VivaManagementSystem/__pycache__
 AJAXHandlers/__pycache__

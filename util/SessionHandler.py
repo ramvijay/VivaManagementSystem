@@ -4,6 +4,7 @@ Handles all things related to the Sessions
 from enum import Enum
 from datetime import datetime
 from util.configuration import ConfigurationManager
+from util.types import UserRoles
 
 
 class SessionVariableKeys(Enum):
@@ -50,11 +51,6 @@ class SessionHandler:
         SessionHandler.__set_session_var(SessionVariableKeys.USER_ROLE, user_obj.user_role)
         SessionHandler.__set_session_var(SessionVariableKeys.USER_COURSE_ID, user_obj.course_id)
 
-        # print(user_obj[0].user_id)
-        # SessionHandler.__session_obj['is_logged_in'] = True
-        # SessionHandler.__session_obj['last_active'] = datetime.now()
-        # SessionHandler.__session_obj['user_id'] = user_obj.user_id
-
     @staticmethod
     def is_user_logged_in():
         """
@@ -63,7 +59,6 @@ class SessionHandler:
         """
         try:
             return SessionHandler.__get_session_var(SessionVariableKeys.IS_LOGGED_IN)
-            # return SessionHandler.__session_obj['is_logged_in']
         except KeyError:
             return False
 
@@ -79,9 +74,6 @@ class SessionHandler:
             SessionHandler.__set_session_var(SessionVariableKeys.IS_LOGGED_IN, False)
             SessionHandler.__set_session_var(SessionVariableKeys.LAST_ACTIVE, datetime.now())
             SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, None)
-            # SessionHandler.__session_obj['is_logged_in'] = False
-            # SessionHandler.__session_obj['last_active'] = datetime.now()
-            # SessionHandler.__session_obj['user_id'] = None
             return
         if SessionHandler.__get_session_var(SessionVariableKeys.IS_LOGGED_IN):
             now_time = datetime.now()
@@ -97,7 +89,12 @@ class SessionHandler:
         Method for getting the type of the logged in user.
         :return: Type of the user logged in.
         """
-        return SessionHandler.__get_session_var(SessionVariableKeys.USER_ROLE)
+        user_type_raw = SessionHandler.__get_session_var(SessionVariableKeys.USER_ROLE)
+        for role in UserRoles:
+            if user_type_raw == role.value:
+                return role
+        return UserRoles.Guest
+
     @staticmethod
     def get_user_id():
         """
@@ -121,8 +118,6 @@ class SessionHandler:
         Method for destroying the session
         :return: None
         """
-        # SessionHandler.__session_obj['is_logged_in'] = False
-        # SessionHandler.__session_obj['user_id'] = None
         SessionHandler.__set_session_var(SessionVariableKeys.IS_LOGGED_IN, False)
         SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, None)
 
@@ -147,4 +142,3 @@ class SessionHandler:
         :return: None
         """
         SessionHandler.__session_obj[var_key] = var_value
-

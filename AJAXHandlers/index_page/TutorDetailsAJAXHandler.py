@@ -1,11 +1,10 @@
 """
 Method for handling the AJAX Login requests
 """
-import json
 from django.http import JsonResponse
 from django.core.exceptions import MultipleObjectsReturned
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import Student, VMS_Session, Course, Tutor, Batch
+from VivaManagementSystem.models import VMS_Session, Tutor, Batch
 
 class TutorDetailsAJAXHandler(IAJAXHandler):
     '''
@@ -53,7 +52,7 @@ class TutorDetailsAJAXHandler(IAJAXHandler):
         """
         # Get the Batch using the Course and VMS Session
         batch = Batch.objects.get(course=course, session=active_session)
-        if batch == None:
+        if batch is None:
             return -1
         else:
             return batch.strength

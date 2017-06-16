@@ -43,7 +43,7 @@ class ConfigurationManager:
         """
         self.__config_data[config_key] = config_value
         # TODO Decide if persistance is done on every set call
-        # If we persist on every set call then potential problem is that on every read call we have to sync
+        # If we persist on every set call then problem is that every read call must sync
         # Otherwise we would be dealing with stale data.
         self.persist_config()
 

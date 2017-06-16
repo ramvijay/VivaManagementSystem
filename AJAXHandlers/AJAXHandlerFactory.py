@@ -17,13 +17,14 @@ from AJAXHandlers.UpdateAllottedGuideListAJAXHandler import UpdateAllottedGuideL
 from AJAXHandlers.DeleteAllottedGuideListAJAXHandler import DeleteAllottedGuideListAJAXHandler
 from AJAXHandlers.CourseListAJAXHandler import CourseListAJAXHandler
 from AJAXHandlers.VMSSessionAJAXHandler import VMSSessionAJAXHandler
-from AJAXHandlers.StudentLocationGraphAJAXHandler import StudentLocationGraphAJAXHandler
-from AJAXHandlers.StudentCompanyGraphAJAXHandler import StudentCompanyGraphAJAXHandler
-from AJAXHandlers.index_page.TutorDetailsAJAXHandler import TutorDetailsAJAXHandler
-from AJAXHandlers.index_page.GuideAllotmentStatusAJAXHandler import GuideAllotmentStatusAJAXHandler
-
+# Index Page
+from AJAXHandlers.index_page import GuideAllotmentStatusAJAXHandler, \
+    StudentCompanyGraphAJAXHandler, StudentLocationGraphAJAXHandler, TutorDetailsAJAXHandler
 
 class AJAXHandlerFactory:
+    """
+    Factory class that creates instances of the AJAX call handlers to use in the system.
+    """
     @staticmethod
     def create_instance(ajax_call):
         """
