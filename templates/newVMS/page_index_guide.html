@@ -5,11 +5,12 @@
 			<div class="row">
 				<div class="col s12 m12 l12">
 					<div class="card">
-						<div class="card-content">
+						<div class="card-content" id="vue_alloted_students_list">
 							<div class="card-title">
 								Alloted Students List
 							</div>
-							<table>
+							{% verbatim %}
+							<table v-if="hasStudentList">
 								<thead>
 									<tr>
 										<th> Name </th>
@@ -17,9 +18,19 @@
 										<th> Company </th>
 									</tr>
 								</thead>
-								<tbody id="alloted_students_list">
+								<tbody>
+									
+									<tr v-for="student in students">
+										<td> {{ student.name }} </td>
+										<td> {{ student.roll_no }} </td>
+										<td> {{ student.name }} </td>
+									</tr>
 								</tbody>
 							</table>
+							<div v-if="!hasStudentList">
+								No student(s) have been alloted for you. Please check again later.
+							</div>
+							{% endverbatim %}
 						</div>
 					</div>
 				</div>

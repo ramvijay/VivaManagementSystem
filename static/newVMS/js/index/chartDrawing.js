@@ -29,6 +29,37 @@ function createRandomColors(numColors) {
 }
 
 /**
+ * Vue objects for easy UI handling
+ */
+/**
+ * Displays the tutor details in the Index Page
+ */
+var tutorSummaryVue = new Vue({
+    el: '#tutorSummaryVueHolder',
+    data: {
+        tutors: []
+    }
+});
+/**
+ * Displays the faculty alloted for the students in the list
+ */
+var facultyAllotedListVue = new Vue({
+    el: '#facultyAllotedListVue',
+    data: {
+        facultyList: []
+    }
+});
+/**
+ * Displays the list of company / organization and the # of people in said org.
+ */
+var studentCompanyDistVue = new Vue({
+    el: '#studentCompanyDistVue',
+    data: {
+        companyCounts: []
+    }
+});
+
+/**
  * Parses the JSON data to the required format (accepted by ChartJS).
  */
 function parseGenericJSONData(jsonData) {
@@ -41,7 +72,6 @@ function parseGenericJSONData(jsonData) {
     });
     var totalCount = labels.length;
     var colorList = createRandomColors(totalCount);
-    console.log(colorList);
     return {
         labels: labels,
         datasets: [
@@ -68,12 +98,7 @@ $(document).ready(function(){
         },
         success: function (data) {
             var jsonData = jQuery.parseJSON(data);
-            var canvas = document.getElementById('studentCompanyDistCanvas');
-            var ctx = canvas.getContext('2d');
-            var studentCompanyDistChart = new Chart(ctx, {
-                type: 'pie',
-                data: parseGenericJSONData(jsonData)
-            });
+            studentCompanyDistVue.companyCounts = jsonData;
         }
     });
     $.ajax({
@@ -92,6 +117,28 @@ $(document).ready(function(){
             });
         }
     });
+    $.ajax({
+        url: '/ajax/index_student_report_status',
+        type: 'GET',
+        error: function (err) {
+            alert("Get Student Report Submission Status Graph Ajax Error " + err.responseText);
+        },
+        success: function (data) {
+            jsonData = jQuery.parseJSON(data);
+            // Check the data
+            if (!jsonData.status) {
+                toastr.error(jsonData.message);
+                return;
+            }
+            var canvas = document.getElementById('studentVivaAllotStatusCanvas');
+            var ctx = canvas.getContext('2d');
+            var studentLocationDistChart = new Chart(ctx, {
+                type: 'pie',
+                data: parseGenericJSONData(jsonData.payload)
+            });
+        }
+    });
+    /*
     var canvas = document.getElementById('studentVivaAllotStatusCanvas');
     var ctx = canvas.getContext('2d');
     var studentVivaStatusChart = new Chart(ctx, {
@@ -103,6 +150,7 @@ $(document).ready(function(){
             { label : "Viva Completed", value : 4}
         ])
     });
+    */
     // This is to fill the Tutor class details
     $.ajax({
         url: '/ajax/index_tutor_data',
@@ -116,16 +164,8 @@ $(document).ready(function(){
                 alert(jsonData.msg);
                 return;
             }
-            // Parse the data and construct the table
-            var htmlContent = '';
-            for(var courseIter = 0; courseIter < jsonData.data.length; courseIter++) {
-                htmlContent += '<tr>';
-                htmlContent += '<td>' + jsonData.data[courseIter].course_name + '</td>';
-                htmlContent += '<td>' + jsonData.data[courseIter].tutor_name + '</td>';
-                htmlContent += '<td>' + jsonData.data[courseIter].strength + '</td>';
-                htmlContent += '</tr>';
-            }
-            $('#tutor_data_container').html(htmlContent);
+            // Give the data to Vue to render it.
+            tutorSummaryVue.tutors = jsonData.data;
         }
     });
     // This is to fill the Guide Allotment details
@@ -141,17 +181,7 @@ $(document).ready(function(){
                 alert(jsonData.msg);
                 return;
             }
-            // Parse the data and construct the table
-            var htmlContent = '';
-            for(data in jsonData.data) {
-                var nameParts = data.split('##');
-                htmlContent += '<tr>';
-                htmlContent += '<td>' + nameParts[0] + '</td>';
-                htmlContent += '<td>' + nameParts[1] + '</td>';
-                htmlContent += '<td>' + jsonData.data[data] + '</td>';
-                htmlContent += '</tr>';
-            }
-            $('#guide_data_container').html(htmlContent);
+            facultyAllotedListVue.facultyList = jsonData.data;
         }
     });
 });

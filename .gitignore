@@ -6,10 +6,4 @@
 .idea/
 .vscode
 VivaManagementSystem/**/*.pyc
-VivaManagementSystem/__pycache__
-AJAXHandlers/__pycache__
-util/__pycache__
-util/configuration/__pycache__
-util/geolocation/__pycache__
-AJAXHandlers/__pycache__
-AJAXHandlers/index_page/__pycache__
+**__pycache__**

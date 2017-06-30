@@ -1,5 +1,5 @@
 body{
-    background: rgb(10, 10, 10) !important;rgb(10, 10, 10)
+    background: #2A3F54;
 }
 .glyphicon{
     color: #fdfdfd !important;
@@ -12,23 +12,22 @@ body{
     padding-left: 10% !important;
     position: relative !important;
 }
-#content{
-    left: 10% !important;
-	width: 80% !important;
-	height: 80%;
-	position:fixed;
-	background: #38383b;
-	padding: 10px;
-	margin-top: 5%;
-	border-radius: 10px;
+.custom-card {
+	padding: 20px;
+  background: white;
+  color: black;
+  margin-top: 50px;
 }
-#content table{
+
+table {
 	position:relative;
-	padding-top: 20px;
 	font-family: Segoe UI;
-	color: #fdfdfd;
-	font-weight: bold;
-}		
+}
+
+table td, table th {
+  padding: 5px 10px;
+}
+
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"]{
 	float:left;

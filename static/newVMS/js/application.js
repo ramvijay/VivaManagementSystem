@@ -1,15 +1,17 @@
 jQuery(document).ready(function ($) {
 	// Setup the Extruder
-	$("#extruderLeft").buildMbExtruder({
-		position:"left",
-		width:250,
-		extruderOpacity:.8,
-		hidePanelsOnClose:true,
-		accordionPanels:true,
-		onExtOpen:function(){},
-		onExtContentLoad:function(){},
-		onExtClose:function(){}
-	});
+	if ($('#extruderLeft').length > 0) {
+		$("#extruderLeft").buildMbExtruder({
+			position:"left",
+			width:250,
+			extruderOpacity:.8,
+			hidePanelsOnClose:true,
+			accordionPanels:true,
+			onExtOpen:function(){},
+			onExtContentLoad:function(){},
+			onExtClose:function(){}
+		});
+	}
 	// Click Listener
 	$("#logout").on('click',function() {
 	     $.post('/logout/',function (response) {

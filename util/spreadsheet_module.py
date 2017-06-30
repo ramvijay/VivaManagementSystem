@@ -1,12 +1,15 @@
 from datetime import datetime
-
+from django.core.exceptions import ObjectDoesNotExist
 import gspread
 import pandas as pd
 import json
+from datetime import datetime
 from oauth2client.client import SignedJwtAssertionCredentials
 from VivaManagementSystem.models import Faculty, VMS_Session
 from VivaManagementSystem.models import Student
 from VivaManagementSystem.models import Course
+from util.configuration import ConfigurationManager, GoogleSheetConfigKeys
+from util import ReportSubmissionStatus
 #-------------------Donot change the code above this line---------------------------------
 
 
@@ -19,10 +22,13 @@ def update_faculty_records(last_logged_time):
                                                 JSON_KEY['private_key'], SCOPE)
     gc = gspread.authorize(credentials)
     # Open up the workbook based on the spreadsheet name
-    workbook = gc.open_by_url(FILEURL)
+    try:
+        workbook = gc.open_by_url(FILEURL)
+    except gspread.SpreadsheetNotFound:
+        return False
     # Get the first sheet
     sheet = workbook.sheet1
-    last_updated_date = datetime.strptime(sheet.updated[:-1],'%Y-%m-%dT%H:%M:%S.%f')
+    last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
     last_updated_date = last_updated_date.replace(tzinfo=None)
     if last_logged_time is not None:
         last_logged_time = last_logged_time.replace(tzinfo=None)
@@ -65,7 +71,10 @@ def update_student_records(last_logged_time):
                                                 JSON_KEY['private_key'], SCOPE)
     gc = gspread.authorize(credentials)
     # Open up the workbook based on the spreadsheet name
-    workbook = gc.open_by_url(STUDENTS_FILEURL)
+    try:
+        workbook = gc.open_by_url(STUDENTS_FILEURL)
+    except gspread.SpreadsheetNotFound:
+        return False
     # Get the first sheet
     sheet = workbook.sheet1
     last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
@@ -82,7 +91,7 @@ def update_student_records(last_logged_time):
     num_db_records = Student.objects.all().count()
     course_details = list(Course.objects.all().values('course_id', 'course_name'))
     course_dict = dict(zip([str(x['course_name']) for x in course_details], [int(x['course_id']) for x in course_details]))
-    semester = {'VII' : 7, 'IV' : 4,'X' : 10}
+    semester = {'VII' : 7, 'IV' : 4, 'X' : 10}
     try:
         # Append rows to the Database
         for index, row in student_data.loc[num_db_records:].iterrows():
@@ -109,6 +118,96 @@ def update_student_records(last_logged_time):
         pass
 
 
+def update_report_submission_status(last_logged_time):
+    '''Updates the "report_submission_status" field in the Students Table
+
+    :param last_logged_time: ?
+
+    :return: None
+    '''
+    report_submission_sheet = 'https://docs.google.com/spreadsheets/d/1sZGYNcdb0SFAI3LY1hBlnC9YjUNytcmh-ng_pO_-jwA/edit#gid=459423118'
+    workbook = authorize_open_sheet(report_submission_sheet)
+    if workbook is None:
+        print("Report Submission Sheet cannot be opened. Debug further for more information.")
+        return
+    submission_sheet = workbook.sheet1
+    if not can_update_sheet(submission_sheet, GoogleSheetConfigKeys.ReportSubmissionFormName.value):
+        return
+    # Proceed with updation.
+    report_data = pd.DataFrame(submission_sheet.get_all_records())
+    try:
+        for index, row in report_data.loc[0:].iterrows():
+            # Update the data here.
+            student_roll = row['Roll Number'].upper()
+            try:
+                req_student_data = Student.objects.get(roll_no=student_roll)
+            except ObjectDoesNotExist:
+                continue
+            # Update the data
+            req_student_data.report_submission_status = ReportSubmissionStatus.Submitted.value
+            req_student_data.save()
+    except IndexError:
+        print("Index error in forum")
+
+def update_last_check_time(workbook_name):
+    '''
+    Sets the last check time in the Configuration to the current time for the given workbook_name
+
+    :param workbook_name: Local name of the workbook to update.
+
+    :return: None
+    '''
+    config_name = workbook_name + '_last_update'
+    config_manager = ConfigurationManager.get_instance()
+    config_manager.set_config(config_name, datetime.now().__str__())
+
+def can_update_sheet(sheet, sheet_name):
+    '''
+    Checks if the report submission data can be updated in the table.
+    Checks the last update time of the sheet and the config data.
+
+    :param sheet: Sheet from gspread module's Workbook
+
+    :param sheet_name: Local name used to refer to the sheet
+
+    :return: :True: if last_update_time is more recent than the stored config data.
+             :False: otherwise.
+    '''
+    config_name = sheet_name + '_last_update'
+    config_manager = ConfigurationManager.get_instance()
+    last_check_value = config_manager.get_config(config_name)
+    if last_check_value is None:
+        # First time with the current DB
+        return True
+    # Check the datetime
+    last_check_time = datetime.strptime(last_check_value, '%Y-%m-%d %H:%M:%S.%f')
+    sheet_last_update_time = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
+    if sheet_last_update_time > last_check_time:
+        return True
+    return False
+
+
+def authorize_open_sheet(sheet_url):
+    """Authorizes the user and returns an instance of the worksheet specified by the sheet_url.
+
+    :param sheet_url: URL pointing to the sheet in drive.
+
+    :return: Result of open_by_url, None if the spread sheet does not exist.
+    """
+    SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
+    SCOPE = ['https://spreadsheets.google.com/feeds']
+    JSON_KEY = json.load(open(SECRETS_FILE))
+    credentials = SignedJwtAssertionCredentials(JSON_KEY['client_email'], \
+                                                JSON_KEY['private_key'], SCOPE)
+    authorized_manager = gspread.authorize(credentials)
+    # Open up the workbook based on the spreadsheet name
+    try:
+        workbook = authorized_manager.open_by_url(sheet_url)
+    except gspread.SpreadsheetNotFound:
+        workbook = None
+    return workbook
+
 def update_database(last_logged_time):
     update_faculty_records(last_logged_time)
     update_student_records(last_logged_time)
+    update_report_submission_status(last_logged_time)

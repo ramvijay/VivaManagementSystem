@@ -1,35 +1,30 @@
 {% include "newVMS/header.html" %}
 {% include "newVMS/navbar.html" %}
-
-
-	<div id="content" >
-		<h1 style="margin-left: 40%; font-family: Segoe UI;color: #fdfdfd;" class="heading" id="table-heading"> Faculty List
-            <a href="#" id="submit-button">
-            <button type="button" class="btn btn-primary confirm-button" style="margin-left: 57%;" id="submit-button">SAVE</button>
-			</a>
-        </h1>
-			<table id="table0" class="tablesorter" style="width:100%" >
-			<thead>
-			<tr>
-				<th class="header" style="width:30%; min-width: 30%;">Faculty Name
-                <a href="#" id="alpha-sort"><span class="glyphicon glyphicon-sort-by-alphabet" style="padding-left: 5%;"></span></a>
-                <a href="#" id="alpha-alt-sort"><span class="glyphicon glyphicon-sort-by-alphabet-alt" ></span></a>
-                </th>
-				<th class="header" style="width:25%">Designation</th>
-				<th class="header" style="width:25%">Core Competency</th>
-				<th class="header" style="width:8%">Alias</th>
-				<th class="header variable" style="width:8%">Is Guide?</th>
-			</tr>
-			</thead>
-			<tbody id="table-scroll" style="overflow-y: auto; overflow-x: hidden;">
-
-            </tbody>
+<div class="row">
+	<div class="col-xg-10 col-lg-10 col-xg-offset-1 col-lg-offset-1">
+		<div class="custom-card">
+			<h1 style="margin-left: 40%; font-family: Segoe UI;" class="heading" id="table-heading"> Faculty List
+				<a href="#" id="submit-button">
+					<button type="button" class="btn btn-primary confirm-button" style="margin-left: 57%;" id="submit-button">SAVE</button>
+				</a>
+			</h1>
+			<table id="table0" class="tablesorter">
+				<thead>
+					<tr>
+						<th class="header" style="width:30%; min-width: 30%;">Faculty Name
+							<a href="#" id="alpha-sort"><span class="glyphicon glyphicon-sort-by-alphabet" style="padding-left: 5%;"></span></a>
+							<a href="#" id="alpha-alt-sort"><span class="glyphicon glyphicon-sort-by-alphabet-alt" ></span></a>
+						</th>
+						<th class="header" style="width:25%">Designation</th>
+						<th class="header" style="width:25%">Core Competency</th>
+						<th class="header" style="width:8%">Alias</th>
+						<th class="header variable" style="width:8%">Is Guide?</th>
+					</tr>
+				</thead>
+				<tbody id="table-scroll" style="overflow-y: auto; overflow-x: hidden;">
+				</tbody>
 			</table>
-            <!--a href="#" id="submit-button" style="color: #fdfdfd">
-			<span class="glyphicons glyphicons-ok-sign" ></span>
-			<a href="#" id="submit-button1" style="color: #fdfdfd"></a>
-			<!--button type="submit" form="guide-allot-form" id="submit-button" value="Submit"> Save </button-->
-			<!--button type="submit" id="submit-button" value="Submit"> Save </button-->
+		</div>
 	</div>
-	
+</div>	
 {% include "newVMS/footer.html" %}

@@ -3,7 +3,7 @@ Contains all the Data models used throughout the system
 Each class is converted to a required table
 """
 from django.db import models
-from util.types import UserRoles
+from util import UserRoles, ReportSubmissionStatus
 
 class VMS_Session(models.Model):
     """
@@ -86,8 +86,16 @@ class Student(models.Model):
         ('Industry', 'Industry Project'),
         ('Research', 'Institution/Research Project'),
     )
+    REPORT_SUBMISSION_STATUS_CHOICES = (
+        ('Pending', ReportSubmissionStatus.Pending),
+        ('Submitted', ReportSubmissionStatus.Submitted),
+    )
+    # PKEY
     roll_no = models.CharField(max_length=8, primary_key=True)
+    # FKEY
     course = models.ForeignKey(Course)
+    session = models.ForeignKey(VMS_Session, default=None)
+    # OThers
     semester = models.IntegerField(choices=SEMESTER_CHOICES)
     name = models.CharField(max_length=100)
     email_id = models.EmailField(default="Invalid")
@@ -103,7 +111,7 @@ class Student(models.Model):
     domain_key_word = models.CharField(max_length=300, blank=True)
     project_title = models.CharField(max_length=500, blank=True)
     join_date = models.CharField(max_length=10, blank=True)
-    session = models.ForeignKey(VMS_Session, default=None)
+    report_submission_status = models.CharField(max_length=20, default='Pending', blank=False)
     class Meta:
         """
         Class that contains the information about the Table.

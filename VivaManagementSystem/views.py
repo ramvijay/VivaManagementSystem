@@ -88,7 +88,8 @@ def index(request):
     else: # This is for guide. Show alloted students details.
         template = loader.get_template('newVMS/page_index_guide.html')
         context['js_files'] = [
-            '/static/newVMS/js/third-party/materialize.min.js'
+            '/static/newVMS/js/third-party/materialize.min.js',
+            '/static/newVMS/js/index/index-for-guide.js'
         ]
         context['css_files'] = [
             '/static/newVMS/styles/third-party/materialize.min.css',

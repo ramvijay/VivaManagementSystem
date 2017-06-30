@@ -21,62 +21,51 @@
             <span>{{ username }}</span>
 		</a>
 		<ul class="dropdown-menu">
-			<!--li><a href="page_index.html#">Profile</a></li>
-			<li><a href="page_index.html#">Finances</a></li>
-			<li class="divider"></li-->
 			<li><a href="#" id="logout">Logout</a></li>
 		</ul>
 	</li>
-    {%  if userrole == "admin" %}
+    {%  if userrole == "Administrator" %}
         <li class="parent pull-right">
             <a href="/config/">
-                 SETTINGS
+                 Configuration
             </a>
-            <!--ul class="dropdown-menu">
-                <li><a href="page_index.html#">Backend Settings</a></li>
-                <li><a href="page_index.html#">Frontend Settings</a></li>
-            </ul-->
         </li>
     {% endif %}
     <li class="parent pull-right">
 		<a href="/about/">
              About
 		</a>
-		<!--ul class="dropdown-menu">
-			<li><a href="page_index.html#">Backend Settings</a></li>
-			<li><a href="page_index.html#">Frontend Settings</a></li>
-		</ul-->
 	</li>
 
 </ul>
 <!-- /#topbar: Top Bar Menu -->
-
-
-<div class="wrapper">
-    <div id="extruderLeft" class="{title:'Pull To Explore'}">
-        <div class="content">
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        <a href="#">
-                            Quick Navigation
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/guide-select/">Guide Selection</a>
-                    </li>
-                    {%  if userrole != "admin" %}
-                        <li>
-                            <a href="/guide-allot/">Guide Allotment</a>
+{%  if userrole != "Guide" %}
+    <div class="wrapper">
+        <div id="extruderLeft" class="{title:'Pull To Explore'}">
+            <div class="content">
+                <div id="sidebar-wrapper">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand">
+                            <a href="#">
+                                Quick Navigation
+                            </a>
                         </li>
-                    {% endif %}
-                    {%  if userrole == "admin" %}
                         <li>
-                            <a href="/config/">Configuration</a>
+                            <a href="/guide-select/">Guide Selection</a>
                         </li>
-                    {% endif %}
-                </ul>
-             </div>
+                        {%  if userrole != "Administrator" %}
+                            <li>
+                                <a href="/guide-allot/">Guide Allotment</a>
+                            </li>
+                        {% endif %}
+                        {%  if userrole == "Administrator" %}
+                            <li>
+                                <a href="/config/">Configuration</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+{% endif %}

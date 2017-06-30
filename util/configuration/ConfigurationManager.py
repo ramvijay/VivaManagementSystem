@@ -57,9 +57,9 @@ class ConfigurationManager:
 
     @staticmethod
     def get_instance():
-        """
-        Singleton access method
-        :return: ConfigurationManager
+        """Singleton access method
+
+        :return: :class: ConfigurationManager
         """
         if ConfigurationManager.__instance is None:
             ConfigurationManager.__instance = ConfigurationManager()

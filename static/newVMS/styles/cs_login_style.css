@@ -15,10 +15,13 @@ a, a:hover {
 
 #loginForm {
 	font: 15px/1.6em Lato, serif;
-	max-width: 280px;
+	max-width: 320px;
 	margin: 0 auto;
 	margin-top: 100px;
 	color: #767a7f;
+	padding: 20px;
+	border-radius: 5px;
+	background: rgba(255, 255, 255, 0.1);
 }
 #loginForm div {
 	position: relative;
