@@ -20,12 +20,18 @@ body{
 }
 
 table {
-	position:relative;
+	position: relative;
 	font-family: Segoe UI;
 }
 
+table th {
+  background: grey;
+  color: white;
+}
+
 table td, table th {
-  padding: 5px 10px;
+  padding: 0px;
+  vertical-align: middle !important;
 }
 
 .checkbox input[type="checkbox"],
@@ -98,3 +104,29 @@ input:checked + .slider:before {
   border-width: medium !important;
 }
 
+/**
+ * Styles used in the Vue Application in the page
+ */
+.heading {
+  font-size: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#navigation-button {
+  float: right;
+  margin-right: 20px;
+}
+
+.clear-div {
+  clear: both;
+}
+
+.table-container {
+  width: 94%;
+  margin-left: 3%;
+  margin-top: 25px;
+}
+
+.full-width-table {
+  width: 100%;
+}

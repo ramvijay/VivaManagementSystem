@@ -61,6 +61,7 @@ class GuideAllotmentStatusAJAXHandler(IAJAXHandler):
         Filters the data according to the logged in user.
         '''
         user_role = SessionHandler.get_user_role()
+        print(user_role)
         if user_role == UserRoles.Admin or user_role == UserRoles.VivaCoordinator:
             # Return all the data
             return GuideStudentMap.objects.filter(session=self.current_session)
@@ -70,5 +71,6 @@ class GuideAllotmentStatusAJAXHandler(IAJAXHandler):
                 session=self.current_session,
                 student__course_id=SessionHandler.get_user_course_id()
             )
-        pass
+        else:
+            return []
         

@@ -94,7 +94,7 @@ class Student(models.Model):
     roll_no = models.CharField(max_length=8, primary_key=True)
     # FKEY
     course = models.ForeignKey(Course)
-    session = models.ForeignKey(VMS_Session, default=None)
+    session = models.ForeignKey(VMS_Session, default=None, null=True)
     # OThers
     semester = models.IntegerField(choices=SEMESTER_CHOICES)
     name = models.CharField(max_length=100)

@@ -195,7 +195,7 @@ def guide_select(request):
             "/static/newVMS/styles/guide-select/guide-select.css"
         ],
         'js_files':[
-            "/static/newVMS/js/guide-select/guide-select.js"
+            "/static/newVMS/js/guide-select/guide-select-vue.js"
         ]
     }
     return HttpResponse(template.render(context, request))

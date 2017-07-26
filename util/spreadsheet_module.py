@@ -12,20 +12,15 @@ from util.configuration import ConfigurationManager, GoogleSheetConfigKeys
 from util import ReportSubmissionStatus
 #-------------------Donot change the code above this line---------------------------------
 
-
 def update_faculty_records(last_logged_time):
-    SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
-    FILEURL = "https://docs.google.com/spreadsheets/d/1nlYqgnmxiLfkGiIEyBUZ4IlFOVTrwok4WUMBHFFl84c/edit#gid=1604066109"
-    SCOPE = ['https://spreadsheets.google.com/feeds']
-    JSON_KEY = json.load(open(SECRETS_FILE))
-    credentials = SignedJwtAssertionCredentials(JSON_KEY['client_email'], \
-                                                JSON_KEY['private_key'], SCOPE)
-    gc = gspread.authorize(credentials)
-    # Open up the workbook based on the spreadsheet name
-    try:
-        workbook = gc.open_by_url(FILEURL)
-    except gspread.SpreadsheetNotFound:
-        return False
+    '''
+    Updates the Faculty records from the Sheet
+    '''
+    faculty_records_file = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
+    workbook = authorize_open_sheet(faculty_records_file)
+    if workbook is None:
+        print("Report Submission Sheet cannot be opened. Debug further for more information.")
+        return
     # Get the first sheet
     sheet = workbook.sheet1
     last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
@@ -61,20 +56,14 @@ def update_faculty_records(last_logged_time):
 
 
 def update_student_records(last_logged_time):
-    SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
-    STUDENTS_FILEURL = "https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263"
-    ''' Extracts all the values from the first sheet of the given URL and
-     returns a ListOfList with every value as a string '''
-    SCOPE = ['https://spreadsheets.google.com/feeds']
-    JSON_KEY = json.load(open(SECRETS_FILE))
-    credentials = SignedJwtAssertionCredentials(JSON_KEY['client_email'], \
-                                                JSON_KEY['private_key'], SCOPE)
-    gc = gspread.authorize(credentials)
-    # Open up the workbook based on the spreadsheet name
-    try:
-        workbook = gc.open_by_url(STUDENTS_FILEURL)
-    except gspread.SpreadsheetNotFound:
-        return False
+    '''
+    Updates the students data from sheet
+    '''
+    students_file_url = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
+    workbook = authorize_open_sheet(students_file_url)
+    if workbook is None:
+        print("Report Submission Sheet cannot be opened. Debug further for more information.")
+        return
     # Get the first sheet
     sheet = workbook.sheet1
     last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
@@ -148,6 +137,8 @@ def update_report_submission_status(last_logged_time):
             req_student_data.save()
     except IndexError:
         print("Index error in forum")
+    # Update the 
+    update_last_check_time(GoogleSheetConfigKeys.ReportSubmissionFormName.value)
 
 def update_last_check_time(workbook_name):
     '''
@@ -199,15 +190,20 @@ def authorize_open_sheet(sheet_url):
     JSON_KEY = json.load(open(SECRETS_FILE))
     credentials = SignedJwtAssertionCredentials(JSON_KEY['client_email'], \
                                                 JSON_KEY['private_key'], SCOPE)
-    authorized_manager = gspread.authorize(credentials)
     # Open up the workbook based on the spreadsheet name
     try:
+        authorized_manager = gspread.authorize(credentials)
         workbook = authorized_manager.open_by_url(sheet_url)
     except gspread.SpreadsheetNotFound:
+        workbook = None
+    except Exception: # This is for any other Exception when opening the sheet
         workbook = None
     return workbook
 
 def update_database(last_logged_time):
+    """
+    Updates the database with the records from all the various spreadsheets.
+    """
     update_faculty_records(last_logged_time)
     update_student_records(last_logged_time)
     update_report_submission_status(last_logged_time)
