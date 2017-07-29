@@ -10,7 +10,7 @@ from django.core import serializers
 
 class FacultyListAJAXHandler(IAJAXHandler):
     def handle_request(self, http_request):
-        faculty_list = list(Faculty.objects.all())
+        faculty_list = list(Faculty.objects.all().order_by('short_name'))
         # Find the count of the guides
         guides_count = sum(faculty.is_guide for faculty in faculty_list)
         if guides_count == 0:
