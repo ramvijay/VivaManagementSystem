@@ -58,6 +58,11 @@
                                 <a href="/guide-allot/">Guide Allotment</a>
                             </li>
                         {% endif %}
+                         {%  if userrole != "Administrator" %}
+                            <li>
+                                <a href="/students/">Student List</a>
+                            </li>
+                        {% endif %}
                         {%  if userrole == "Administrator" %}
                             <li>
                                 <a href="/config/">Configuration</a>
