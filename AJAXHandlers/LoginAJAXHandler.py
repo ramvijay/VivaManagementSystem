@@ -26,6 +26,7 @@ class LoginAJAXHandler(IAJAXHandler):
             result['msg'] = 'User already logged in. Logout and try again.'
             return json.dumps(result)
         try:
+            # TODO Changing this to case insensitive is causing issues everywhere else. Enfore all caps user names
             user_obj = User.objects.get(user=userid, user_pass=password)
             tutor = Tutor.objects.select_related('faculty').filter(faculty=userid)
             # This is causing a error since the logged in faculty could also be an
@@ -37,7 +38,6 @@ class LoginAJAXHandler(IAJAXHandler):
             SessionHandler.login_user(user_obj)
             result['course_id'] = course_id
             result['status'] = 'success'
-            print(user_obj.user_role)
             result['role'] = user_obj.user_role
         except User.DoesNotExist:
             # Invalid user. Return error message

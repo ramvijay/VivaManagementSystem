@@ -48,7 +48,7 @@ def index(request):
     current_user_id = SessionHandler.get_user_id()
     current_user = User.objects.get(user_id=current_user_id) # For user_role.
     last_logged_in = current_user.logged_in_time
-    if GenericUtil.is_connected():
+    if GenericUtil.is_connected(): # TODO FIXME Move this to a AJAX Request. This severly hogs up data.
         spreadsheet_module.update_database(last_logged_in)
         current_user.logged_in_time = datetime.now()
         current_user.save()

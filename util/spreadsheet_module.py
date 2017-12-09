@@ -3,7 +3,6 @@ from django.core.exceptions import ObjectDoesNotExist
 import gspread
 import pandas as pd
 import json
-from datetime import datetime
 from oauth2client.client import SignedJwtAssertionCredentials
 from VivaManagementSystem.models import Faculty, VMS_Session
 from VivaManagementSystem.models import Student
@@ -21,16 +20,12 @@ def update_faculty_records(last_logged_time):
     if workbook is None:
         print("Report Submission Sheet cannot be opened. Debug further for more information.")
         return
-    # Get the first sheet
+    # Check if we need to update the sheet
     sheet = workbook.sheet1
-    last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
-    last_updated_date = last_updated_date.replace(tzinfo=None)
-    if last_logged_time is not None:
-        last_logged_time = last_logged_time.replace(tzinfo=None)
-        if last_logged_time > last_updated_date:
-            print("up to date")
-            return
-
+    if not can_update_sheet(sheet, GoogleSheetConfigKeys.FacultyFormName.value):
+        print(GoogleSheetConfigKeys.FacultyFormName.value + ' form is up to date')
+        return
+    
     print("updating faculty data")
     # Extract all data into a dataframe
     faculty_data = pd.DataFrame(sheet.get_all_records())
@@ -53,6 +48,8 @@ def update_faculty_records(last_logged_time):
             model.save()
     except:
         pass
+    # Update the 
+    update_last_check_time(GoogleSheetConfigKeys.FacultyFormName.value)
 
 
 def update_student_records(last_logged_time):
@@ -66,13 +63,9 @@ def update_student_records(last_logged_time):
         return
     # Get the first sheet
     sheet = workbook.sheet1
-    last_updated_date = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
-    last_updated_date = last_updated_date.replace(tzinfo=None)
-    if last_logged_time is not None:
-        last_logged_time = last_logged_time.replace(tzinfo=None)
-        if last_logged_time > last_updated_date:
-            print("up to date")
-            return
+    if not can_update_sheet(sheet, GoogleSheetConfigKeys.StudentsFormName.value):
+        print(GoogleSheetConfigKeys.StudentsFormName.value + ' form is up to date')
+        return
 
     print("updating student data")
     # Extract all data into a dataframe
@@ -105,6 +98,8 @@ def update_student_records(last_logged_time):
             model.save()
     except IndexError:
         pass
+    # Update the 
+    update_last_check_time(GoogleSheetConfigKeys.StudentsFormName.value)
 
 
 def update_report_submission_status(last_logged_time):
@@ -121,6 +116,7 @@ def update_report_submission_status(last_logged_time):
         return
     submission_sheet = workbook.sheet1
     if not can_update_sheet(submission_sheet, GoogleSheetConfigKeys.ReportSubmissionFormName.value):
+        print(GoogleSheetConfigKeys.ReportSubmissionFormName.value + ' form is up to date')
         return
     # Proceed with updation.
     report_data = pd.DataFrame(submission_sheet.get_all_records())

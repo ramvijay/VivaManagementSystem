@@ -113,7 +113,10 @@ $(document).ready(function(){
             var ctx = canvas.getContext('2d');
             var studentLocationDistChart = new Chart(ctx, {
                 type: 'pie',
-                data: parseGenericJSONData(jsonData)
+                data: parseGenericJSONData(jsonData),
+                options: {
+                    maintainAspectRatio: false
+                }
             });
         }
     });
@@ -134,7 +137,10 @@ $(document).ready(function(){
             var ctx = canvas.getContext('2d');
             var studentLocationDistChart = new Chart(ctx, {
                 type: 'pie',
-                data: parseGenericJSONData(jsonData.payload)
+                data: parseGenericJSONData(jsonData.payload),
+                options: {
+                    maintainAspectRatio: false
+                }
             });
         }
     });
