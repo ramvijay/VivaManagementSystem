@@ -223,14 +223,17 @@ def student_list(request):
     tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
     if len(tutors) == 0:
         course_name = "ADMIN VIEW"
+        course_id = "-1"
     else:
         course_name = tutors[0].course.course_name
+        course_id = SessionHandler.get_user_course_id()
 
     context = {
         'username': user_name,
         'userrole': user_role,
         'pagename': 'VMS-Config',
         'course_name': course_name,
+        'course_id': course_id,
         'css_files': [
             "/static/newVMS/styles/student-list/student-list.css"
         ],
