@@ -112,6 +112,29 @@ window.config_page_data_load_func[1] = function() {
     });
 }
 
+/**
+ * Loads the URL for the various Forms from the configuration
+ */
+window.config_page_data_load_func[3] = function() {
+    // Get all three configurations
+    get_config_promise('FacultyFormURL')
+        .then(url => {
+            $('#faculty_form_url').val(url);
+            return get_config_promise('StudentFormURL');
+        })
+        .then(url => {
+            $('#student_form_url').val(url);
+            return get_config_promise('ReportFormURL');
+        })
+        .then(url => {
+            $('#report_form_url').val(url);
+            Materialize.updateTextFields();
+        })
+        .catch(err => {
+            toastr.error(err);
+        });
+};
+
 $(document).ready(function(){
     window.config_tabs = $('ul.tabs').tabs();
     $(document).ready(function() {
@@ -130,7 +153,7 @@ $(document).ready(function(){
     //Load the initial courses from the DB.
     _LoadCourses();
 
-    $('#config_course_container').on('click', '.config_course_close', function(event){
+    $('#config_course_container').on('click', '.config_course_close', function(event) {
         /**
          * Deals with removing a course from the Course List
          */
@@ -202,37 +225,77 @@ $(document).ready(function(){
     });
     // END PAGE 1
     // START PAGE 2
-    $('#config_page_2_submit').on('click', function(){
-        var tbl = $('#config-2-table tr').get().map(function(row) {
-              return $(row).find('td').get().map(function(cell) {
-                    if($(cell).find('input').val()==null){
-                        return ($(cell).text());
-                    }
-                    return $(cell).find('input').val();
-              });
+    $('#config_page_2_submit').on('click', function () {
+        var tbl = $('#config-2-table tr').get().map(function (row) {
+            return $(row).find('td').get().map(function (cell) {
+                if ($(cell).find('input').val() == null) {
+                    return ($(cell).text());
+                }
+                return $(cell).find('input').val();
+            });
         });
         tbl.shift();
-        mydata=[];
-        record={}
-        $.each(tbl,function(i,item){
-            record = {course:item[0],no_of_students:item[1],tutor:item[2],mail:item[3]}
+        mydata = [];
+        record = {}
+        $.each(tbl, function (i, item) {
+            record = {
+                course: item[0],
+                no_of_students: item[1],
+                tutor: item[2],
+                mail: item[3]
+            }
             mydata.push(record);
         });
         final_data = JSON.stringify(mydata);
         $.ajax({
-            url:'/ajax/tutor_setup_config/',
-            type:'POST',
-            data: {action:'SET',result:final_data},
-            success: function(data) {
+            url: '/ajax/tutor_setup_config/',
+            type: 'POST',
+            data: {
+                action: 'SET',
+                result: final_data
+            },
+            success: function (data) {
                 data = JSON.parse(data)
-                if(data.result == "success"){
+                if (data.result == "success") {
                     toastr.success("Tutor Setup Saved ! ");
-                }else{
+                } else {
                     toastr.error("Problem While saving ! ");
                 }
             }
         });
     });
     // END PAGE 2
-
+    // START PAGE 4
+    $('#config_page_4_submit').on('click', function() {
+        // Check if something is empty and confirm
+        const studentFormURL = $('#student_form_url').val().trim();
+        const facultyFormURL = $('#faculty_form_url').val().trim();
+        const reportFormURL = $('#report_form_url').val().trim();
+        if (studentFormURL === '' || facultyFormURL === '' || reportFormURL === '') {
+            if (!confirm('Some of the URLs are empty. Do you want to proceed  with saving the data?')) {
+                return;
+            }
+        }
+        set_config_promise('FacultyFormURL', facultyFormURL)
+            .then(status => {
+                if (!status) {
+                    return Promise.reject(status);
+                }
+                return set_config_promise('StudentFormURL', studentFormURL);
+            })
+            .then(status => {
+                if (!status) {
+                    return Promise.reject(status);
+                }
+                return set_config_promise('ReportFormURL', reportFormURL);
+            })
+            .then(status => {
+                toastr.success('New URL values are saved.');
+            })
+            .catch(err => {
+                console.log('Error occurred when setting the Form URLs.');
+                console.log(err);
+            });
+    });
+    // END PAGE 4
 });
