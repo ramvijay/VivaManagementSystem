@@ -15,17 +15,19 @@ def update_faculty_records(last_logged_time):
     '''
     Updates the Faculty records from the Sheet
     '''
-    faculty_records_file = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
+    # faculty_records_file = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
+    config_manager = ConfigurationManager.get_instance()
+    faculty_records_file = config_manager.get_config('FacultyFormURL')
     workbook = authorize_open_sheet(faculty_records_file)
     if workbook is None:
-        print("Report Submission Sheet cannot be opened. Debug further for more information.")
+        print("Faculty Sheet cannot be opened. Debug further for more information.")
+        print(faculty_records_file)
         return
     # Check if we need to update the sheet
     sheet = workbook.sheet1
     if not can_update_sheet(sheet, GoogleSheetConfigKeys.FacultyFormName.value):
         print(GoogleSheetConfigKeys.FacultyFormName.value + ' form is up to date')
         return
-    
     print("updating faculty data")
     # Extract all data into a dataframe
     faculty_data = pd.DataFrame(sheet.get_all_records())
@@ -35,7 +37,7 @@ def update_faculty_records(last_logged_time):
         for index, row in faculty_data.loc[num_db_records:].iterrows():
             model = Faculty()
             model.title = row['Title']
-            model.name =  row['Full Name'].upper()
+            model.name = row['Full Name'].upper()
             model.designation = row['Designation']
             model.short_name = row['Short Name used in Department'].upper()
             model.employee_id = row['Employee ID'].upper()
@@ -48,7 +50,7 @@ def update_faculty_records(last_logged_time):
             model.save()
     except:
         pass
-    # Update the 
+    # Update the last checked time
     update_last_check_time(GoogleSheetConfigKeys.FacultyFormName.value)
 
 
@@ -56,10 +58,13 @@ def update_student_records(last_logged_time):
     '''
     Updates the students data from sheet
     '''
-    students_file_url = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
+    # students_file_url = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
+    config_manager = ConfigurationManager.get_instance()
+    students_file_url = config_manager.get_config('StudentFormURL')
     workbook = authorize_open_sheet(students_file_url)
     if workbook is None:
-        print("Report Submission Sheet cannot be opened. Debug further for more information.")
+        print("Student Sheet cannot be opened. Debug further for more information.")
+        print(students_file_url)
         return
     # Get the first sheet
     sheet = workbook.sheet1
@@ -109,7 +114,9 @@ def update_report_submission_status(last_logged_time):
 
     :return: None
     '''
-    report_submission_sheet = 'https://docs.google.com/spreadsheets/d/1sZGYNcdb0SFAI3LY1hBlnC9YjUNytcmh-ng_pO_-jwA/edit#gid=459423118'
+    # report_submission_sheet = 'https://docs.google.com/spreadsheets/d/1sZGYNcdb0SFAI3LY1hBlnC9YjUNytcmh-ng_pO_-jwA/edit#gid=459423118'
+    config_manager = ConfigurationManager.get_instance()
+    report_submission_sheet = config_manager.get_config('ReportFormURL')
     workbook = authorize_open_sheet(report_submission_sheet)
     if workbook is None:
         print("Report Submission Sheet cannot be opened. Debug further for more information.")
@@ -171,6 +178,9 @@ def can_update_sheet(sheet, sheet_name):
     sheet_last_update_time = datetime.strptime(sheet.updated[:-1], '%Y-%m-%dT%H:%M:%S.%f')
     if sheet_last_update_time > last_check_time:
         return True
+    print(sheet_name)
+    print(last_check_value)
+    print(sheet.updated[:-1])
     return False
 
 
