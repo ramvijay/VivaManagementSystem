@@ -1,6 +1,5 @@
 import json
 
-
 class ConfigurationManager:
     """
     Class that deals with getting and setting all the configurations
@@ -21,7 +20,19 @@ class ConfigurationManager:
         :return: None
         """
         config_fh = open(ConfigurationManager.__CONFIG_FILE_PATH)
-        self.__config_data = json.load(config_fh)
+        # Check if the size of the configuration file is equal to 0
+        try:
+            self.__config_data = json.load(config_fh)
+        except json.JSONDecodeError as parseError:
+            # This can be due to the file being empty
+            # Check the file size
+            if config_fh.tell == 0:
+                # Empty file. Just load an empty JSON String.
+                # This problem should be fixed on the next writeback to the file
+                self.__config_data = json.loads('{}')
+            else:
+                # Serious Error. Let something else catch this
+                raise parseError
 
     def get_config(self, config_key):
         """
