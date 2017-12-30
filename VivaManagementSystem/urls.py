@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^config/$', views.config),
     url(r'^guide-allot/$', views.guide_allot),
     url(r'^guide-select/$', views.guide_select),
-    url(r'^students',views.student_list),
+    url(r'^students', views.student_list),
     url(r'^about', views.about),
     url(r'^ajax/(?P<ajax_call>[a-zA-Z_]+)/$', views.ajax)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

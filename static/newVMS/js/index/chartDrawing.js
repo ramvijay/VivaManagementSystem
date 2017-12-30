@@ -113,7 +113,10 @@ $(document).ready(function(){
             var ctx = canvas.getContext('2d');
             var studentLocationDistChart = new Chart(ctx, {
                 type: 'pie',
-                data: parseGenericJSONData(jsonData)
+                data: parseGenericJSONData(jsonData),
+                options: {
+                    maintainAspectRatio: false
+                }
             });
         }
     });
@@ -134,23 +137,13 @@ $(document).ready(function(){
             var ctx = canvas.getContext('2d');
             var studentLocationDistChart = new Chart(ctx, {
                 type: 'pie',
-                data: parseGenericJSONData(jsonData.payload)
+                data: parseGenericJSONData(jsonData.payload),
+                options: {
+                    maintainAspectRatio: false
+                }
             });
         }
     });
-    /*
-    var canvas = document.getElementById('studentVivaAllotStatusCanvas');
-    var ctx = canvas.getContext('2d');
-    var studentVivaStatusChart = new Chart(ctx, {
-        type: 'pie',
-        data: parseGenericJSONData([
-            { label : "Report Submitted", value : 13},
-            { label : "Report Not Submitted", value : 20},
-            { label : "Viva Scheduled", value : 2},
-            { label : "Viva Completed", value : 4}
-        ])
-    });
-    */
     // This is to fill the Tutor class details
     $.ajax({
         url: '/ajax/index_tutor_data',

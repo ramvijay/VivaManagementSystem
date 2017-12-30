@@ -9,7 +9,7 @@
                 <li class="tab col s3" data-page="0"><a class="active" href="#page1">Session and Class</a></li>
                 <li class="tab col s3" data-page="1"><a href="#page2">Tutor Setup</a></li>
                 <li class="tab col s3" data-page="2"><a href="#page3">Role Assignment</a></li>
-                <li class="tab col s3" data-page="2"><a href="#page4">Advanced</a></li>
+                <li class="tab col s3" data-page="3"><a href="#page4">Advanced</a></li>
             </ul>
         </div>
         <div id="page1" class="col s12 tab-page">
@@ -83,8 +83,32 @@
                 </div>
             </div>
         </div>
-        <div id="page3" class="col s12">Test 3</div>
-        <div id="page3" class="col s12">Test 3</div>
+        <div id="page3" class="col s12 tab-page">Test 3</div>
+        <div id="page4" class="col s12 tab-page">
+            <div class="col s6 offset-s3">
+                <form id="config_session">
+                    <div class="input-field col s12">
+                        <label for="session_year"> Faculty Form Response Sheet URL </label>
+                        <input type="text" class="form-control" name="faculty_form_url" id="faculty_form_url"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="input-field col s12">
+                        <label for="session_year"> Student Form Response Sheet URL </label>
+                        <input type="text" class="form-control" name="student_form_url" id="student_form_url"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="input-field col s12">
+                            <label for="session_year"> Report Submission Form Response Sheet URL </label>
+                            <input type="text" class="form-control" name="report_form_url" id="report_form_url"/>
+                        </div>
+                        <div class="clearfix"></div>
+                    <hr size="2">
+                    <div class="col s6 offset-s3">
+                        <button type="button" class="btn btn-success col s12" id="config_page_4_submit"> Save </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% include "newVMS/footer.html" %}

@@ -31,11 +31,12 @@
         <link rel="stylesheet" href="/static/newVMS/styles/third-party/mcustomscrollbar/jquery.mCustomScrollbar.css" />
 
         <link rel="stylesheet" href="/static/newVMS/styles/third-party/w3/w3.css">
-        <link href="/static/newVMS/styles/third-party/mbExtruder.css" media="all" rel="stylesheet" type="text/css">
-        <link href="/static/newVMS/styles/vBot/style.css" media="all" rel="stylesheet" type="text/css">
+		<link href="/static/newVMS/styles/third-party/mbExtruder.css" media="all" rel="stylesheet" type="text/css">
+		<!-- TODO This is a missing theme. Probably safe to delete. @Ram-->
+        <!--<link href="/static/newVMS/styles/vBot/style.css" media="all" rel="stylesheet" type="text/css">-->
 
         {% for file in css_files %}
-            <link rel="stylesheet" href="{{ file }}" />
+		<link rel="stylesheet" href="{{ file }}" />
         {% endfor %}
 
 		<link rel="icon" type="image/png" href="/static/newVMS/res/logo/VMSLogo.png">

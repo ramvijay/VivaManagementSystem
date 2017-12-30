@@ -1,6 +1,9 @@
 /**
  * Created by PRASANNA on 12/28/2016.
  */
+
+var course_id ;
+
 function students_search() {
   var input, filter, table, tr, td, i;
   input = document.getElementById("search");
@@ -24,7 +27,7 @@ $(document).ready(function(){
         theme:"3d",
         scrollbarPosition: "inside"
     });
-
+    course_id = $("#course-id").val();
 });
 
 function UpdateStudentList(data){
@@ -36,11 +39,10 @@ function UpdateStudentList(data){
 }
 $(document).ready(function(){
    $.ajax({
-       type: "POST",
-       url: "/ajax/get_student_list/",
-       data: {},
-       dataType: "json",
-       success: function(result) {
+       type: "GET",
+       url: '/ajax/get_student_list?course_id='+course_id,
+        success: function(result) {
+           result = JSON.parse(result);
            UpdateStudentList(result["result"]);
        }
     });

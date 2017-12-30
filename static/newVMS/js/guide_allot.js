@@ -82,35 +82,35 @@ jQuery(document).ready(function ($) {
 
 
 function onConfirmAllot(){
-     if(globalRemainingCount>0){
+      if (globalRemainingCount > 0) {
             alert("Students are yet to be allotted, before you can confirm");
             return;
-    }
-    alert("Are you sure this is the final guide allotment ");
-    printToScreen();
-}
-
-function printToScreen(){
-    var print_array= [];
-    $.map(map_dict,function (value,key) {
-        if (value.length > 0) {
-            $.each(value, function (i, item) {
-                print_array.push({roll_no:item.student,stud_name:item.studentObj.name,
-                    organization:item.studentObj.organization_name,guide_name:empid_detail_map[key].name,
-                    guide_short_name:empid_detail_map[key].short_name});
-            });
         }
-    });
-    buildHtmlTable(print_array,"#map_data_table");
-    var printContent = $('#map_data_table_wrapper')[0].innerHTML;
-    $('#map_data_table_wrapper').remove();
-    $('#map_data_table').remove();
-    win = window.open();
-    $(win.document.body).html(printContent);
-    win.print();
+        alert("Are you sure this is the final guide allotment ");
+        print_array = [];
+        $.map(map_dict, function (value, key) {
+            if (value.length > 0) {
+                $.each(value, function (i, item) {
+                    print_array.push({
+                        roll_no: item.student,
+                        stud_name: item.studentObj.name,
+                        organization: item.studentObj.organization_name,
+                        guide_name: empid_detail_map[key].name,
+                        guide_short_name: empid_detail_map[key].short_name
+                    });
+                });
+            }
+        });
+        buildHtmlTable(print_array, "#map_data_table");
+        var printContent = $('#map_data_table_wrapper')[0].innerHTML;
+        $('#map_data_table_wrapper').remove();
+        $('#map_data_table').remove();
+        win = window.open();
+        $(win.document.body).html(printContent);
+        win.print();
 }
 
-//function to update student list on event
+
 function UpdateStudentList(data) {
     var student;
     $.each(data.result, function(i, item) {
@@ -128,10 +128,9 @@ function UpdateStudentList(data) {
     });
 }
 
-//function to update guide list on event
 function UpdateGuideList(data){
     var faculty;
-    var recommended_count = data.rc;
+    recommended_count = data.rc;
     orange_bound = recommended_count;
     $.each(data.result, function(i, item) {
         empid_detail_map[item.pk] = item.fields;
@@ -159,7 +158,6 @@ function UpdateGuideList(data){
     });
 }
 
-
 $("#mapping-list").on('click','button',function () {
     var emp_id = $(this).parent().find('.emp-id').val();
     var alloted_count = $(this).parent().find('.alloted-count').text();
@@ -177,7 +175,6 @@ $("#mapping-list").on('click','button',function () {
     }
     $(this).parent().hide();
 });
-
 
 $("#mapping-list").on('click','span',function () {
     var strVal = $(this).parent().html();

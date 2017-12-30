@@ -1,7 +1,7 @@
 """
 Module that contains common utils for the various models in the sytem
 """
-from VivaManagementSystem.models import VMS_Session, Student
+from VivaManagementSystem.models import VMS_Session, Student, User
 from django.core.exceptions import MultipleObjectsReturned
 
 class ModelUtils:
@@ -34,4 +34,22 @@ class ModelUtils:
         if current_session is None:
             return []
         return Student.objects.filter(session=current_session)
-        pass
+
+    @staticmethod
+    def create_credentials_for_faculty(faculty, faculty_role):
+        """Creates a User credential for the faculty with the given role.
+        Arguments
+        faculty_id - ID of the Faculty to target
+        faculty_role - Role played in the systems
+
+        :return: Boolean status of the creation process
+        """
+        # Create a password from the faculty Object
+        new_password = faculty.employee_id.upper
+        new_credentials = User(
+            user=faculty,
+            user_pass=new_password,
+            user_role=faculty_role
+        )
+        new_credentials.save()
+        return True

@@ -7,3 +7,4 @@
 .vscode
 VivaManagementSystem/**/*.pyc
 **__pycache__**
+VMS/

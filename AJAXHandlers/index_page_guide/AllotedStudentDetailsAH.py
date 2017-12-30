@@ -26,8 +26,10 @@ class AllotedStudentDetailsAH(IAJAXHandler):
         )
         if len(alloted_students):
             print(alloted_students)
-            return json.dumps({'status': True,
-                               'data': self.prepare_alloted_student_list(alloted_students)})
+            return json.dumps({
+                'status': True,
+                'data': self.prepare_alloted_student_list(alloted_students)
+            })
         else:
             return json.dumps({'status': False, 'error': 'No students alloted yet.'})
 

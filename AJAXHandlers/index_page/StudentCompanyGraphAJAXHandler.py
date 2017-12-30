@@ -23,17 +23,20 @@ class StudentCompanyGraphAJAXHandler(IAJAXHandler):
         # Check the session data
         self.curr_session = ModelUtils.get_current_session()
         if self.curr_session is None:
-            return json.dumps({'status' : False,
-                               'msg': 'No active session. Set active session and try again.'})
+            return json.dumps({
+                'status' : False,
+                'msg': 'No active session. Set active session and try again.'
+            })
         company_names_dict = dict()
         for student in self.get_filtered_students():
-            if student.organization_name.lower() in company_names_dict:
-                company_names_dict[student.organization_name.lower()] += 1
+            org_name_clean = student.organization_name.lower().strip()
+            if org_name_clean in company_names_dict:
+                company_names_dict[org_name_clean] += 1
             else:
-                company_names_dict[student.organization_name.lower()] = 1
+                company_names_dict[org_name_clean] = 1
         # Format the list according to Morris Chart format
         return_data = []
-        for company in company_names_dict:
+        for company in sorted(company_names_dict.keys()):
             company_entry = dict()
             company_entry['name'] = company.title()
             company_entry['count'] = company_names_dict[company]
