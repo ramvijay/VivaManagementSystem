@@ -10,11 +10,11 @@
     <li id="course-detail">
         <span id="college-name">DAMCS@PSG-TECH  -  </span>
         <span id="course-name">{{ course_name }}</span>
-
         <span id="online-status"> </span>
-        <span id="sync_data"><i class="fa fa-refresh" style="margin-left: 10px;cursor:pointer;" aria-hidden="true"></i></></span>
+        <span id="sync_data">
+            <i class="fa fa-refresh" style="margin-left: 10px;cursor:pointer;" aria-hidden="true"></i>
+        </span>
     </li>
-
 	<li class="parent pull-right">
 		<a href="page_index.html#" data-toggle="dropdown">
             <i class="icon-user"></i>
@@ -25,52 +25,47 @@
 		</ul>
 	</li>
     {%  if userrole == "Administrator" %}
-        <li class="parent pull-right">
-            <a href="/config/">
-                 Configuration
-            </a>
-        </li>
+    <li class="parent pull-right">
+        <a href="/config/">
+            Configuration
+        </a>
+    </li>
     {% endif %}
     <li class="parent pull-right">
 		<a href="/about/">
-             About
+            About
 		</a>
 	</li>
-
 </ul>
 <!-- /#topbar: Top Bar Menu -->
-{%  if userrole != "Guide" %}
-    <div class="wrapper">
-        <div id="extruderLeft" class="{title:'Pull To Explore'}">
-            <div class="content">
-                <div id="sidebar-wrapper">
-                    <ul class="sidebar-nav">
-                        <li class="sidebar-brand">
-                            <a href="#">
-                                Quick Navigation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/guide-select/">Guide Selection</a>
-                        </li>
-                        {%  if userrole != "Administrator" %}
-                            <li>
-                                <a href="/guide-allot/">Guide Allotment</a>
-                            </li>
-                        {% endif %}
-                         {%  if userrole != "Administrator" %}
-                            <li>
-                                <a href="/students/">Student List</a>
-                            </li>
-                        {% endif %}
-                        {%  if userrole == "Administrator" %}
-                            <li>
-                                <a href="/config/">Configuration</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
+{%  if userrole != UserRoles.Guide %}
+<div class="wrapper">
+    <div id="extruderLeft" class="{title:'Pull To Explore'}">
+        <div class="content">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            Quick Navigation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/guide-select/">Guide Selection</a>
+                    </li>
+                    <!-- -->
+                    {%  if userrole != UserRoles.Admin %}
+                    <li>
+                        <a href="/guide-allot/">Guide Allotment</a>
+                    </li>
+                    {% endif %}
+                    {%  if userrole == UserRoles.Admin %}
+                    <li>
+                        <a href="/config/">Configuration</a>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </div>
+</div>
 {% endif %}
