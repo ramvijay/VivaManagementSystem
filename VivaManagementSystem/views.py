@@ -269,7 +269,3 @@ def about(request):
     }
     return HttpResponse(template.render(context, request))
 
-def chatBot(request):
-    template = loader.get_template('newVMS/vBot.html')
-    context = {}
-    return HttpResponse(template.render(context, request))

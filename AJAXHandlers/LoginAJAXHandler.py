@@ -37,7 +37,6 @@ class LoginAJAXHandler(IAJAXHandler):
             SessionHandler.login_user(user_obj)
             result['course_id'] = course_id
             result['status'] = 'success'
-            print(user_obj.user_role)
             result['role'] = user_obj.user_role
         except User.DoesNotExist:
             # Invalid user. Return error message

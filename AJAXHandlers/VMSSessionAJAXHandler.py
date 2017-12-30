@@ -22,6 +22,5 @@ class VMSSessionAJAXHandler(IAJAXHandler):
             except currentSession.DoesNotExist:
                 currentSession = None
                 return JsonResponse({'result': 'none'})
-            print(currentSession)
             return JsonResponse({'result':  serializers.serialize('json',[currentSession])})
         return JsonResponse({'result': 'success'})

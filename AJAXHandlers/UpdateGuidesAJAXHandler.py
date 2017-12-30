@@ -7,7 +7,6 @@ from django.core import serializers
 class UpdateGuidesAJAXHandler(IAJAXHandler):
     def handle_request(self, http_request):
         data = http_request.POST.getlist("input[]")
-        print(data)
         Faculty.objects.update(is_guide=0)
         for id in data:
             guide = Faculty.objects.get(employee_id=id)
