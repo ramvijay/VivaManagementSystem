@@ -24,7 +24,6 @@ class UserRoles(Enum):
                 return role
         return UserRoles.Guest
 
-
 class ReportSubmissionStatus(Enum):
     '''
     Various states in the report submission process
