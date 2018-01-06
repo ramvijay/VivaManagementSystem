@@ -12,6 +12,7 @@ from util import GenericUtil
 from util import SessionHandler
 from util import spreadsheet_module
 from util.types import UserRoles
+import json
 
 def login(request):
     """
@@ -116,12 +117,15 @@ def config(request):
         course_name = "ADMIN VIEW"
     else:
         course_name = tutors[0].course.course_name
-
+    # Set the email to use when setting a new Form Response Sheet
+    SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
+    file_data = json.load(open(SECRETS_FILE))
     context = {
         'username': user_name,
         'userrole' : user_role,
         'pagename': 'VMS-Config',
         'course_name': course_name,
+        'google_sheets_perm_user_email': file_data['client_email'],
         'js_files': [
             '/static/newVMS/js/third-party/materialize.min.js',
             '/static/newVMS/js/config/main.js'

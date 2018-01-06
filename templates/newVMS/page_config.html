@@ -87,6 +87,13 @@
         <div id="page4" class="col s12 tab-page">
             <div class="col s6 offset-s3">
                 <form id="config_session">
+                    <!-- Information related to sharing of the sheet so that it can be accessed by someone using this application -->
+                    <div class="information-box red-text">
+                        Please note that if a new sheet is being used then, this URL has to be changed. <br />
+                        For the system to work, the new sheet has to be shared with the following email ID : {{ google_sheets_perm_user_email }}. <br />
+                        This allows the system to access the new sheets from the Code. <br />
+                        System will not sync otherwise. <br />
+                    </div>
                     <div class="input-field col s12">
                         <label for="session_year"> Faculty Form Response Sheet URL </label>
                         <input type="text" class="form-control" name="faculty_form_url" id="faculty_form_url"/>
