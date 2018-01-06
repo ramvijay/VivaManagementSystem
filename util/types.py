@@ -4,6 +4,14 @@ File that contains all the different Types used in the System
 from enum import Enum
 import json
 
+def for_django(cls):
+    """
+    Decorator that is to be used with Enums to give it access in templates
+    """
+    cls.do_not_call_in_templates = True
+    return cls
+
+@for_django
 class UserRoles(Enum):
     """
     Various Roles played by the Faculty in the system

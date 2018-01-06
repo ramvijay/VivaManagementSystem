@@ -38,7 +38,7 @@
 	</li>
 </ul>
 <!-- /#topbar: Top Bar Menu -->
-{%  if userrole != UserRoles.Guide %}
+{%  if userrole != "Guide" %}
 <div class="wrapper">
     <div id="extruderLeft" class="{title:'Pull To Explore'}">
         <div class="content">
@@ -53,12 +53,12 @@
                         <a href="/guide-select/">Guide Selection</a>
                     </li>
                     <!-- -->
-                    {%  if userrole != UserRoles.Admin %}
+                    {%  if userrole != "Administrator" %}
                     <li>
                         <a href="/guide-allot/">Guide Allotment</a>
                     </li>
                     {% endif %}
-                    {%  if userrole == UserRoles.Admin %}
+                    {% if userrole == "Administrator" %}
                     <li>
                         <a href="/config/">Configuration</a>
                     </li>
