@@ -13,6 +13,12 @@ var globalRemainingCount;
 jQuery(document).ready(function ($) {
     tutor_id = $("#tutor-id").val();
     course_id = $("#course-id").val();
+    // IF this is admin view, then do not do anything
+    console.log(course_id);
+    if (course_id === '-1') {
+        alert('As an Administrator, you are not required to do guide mapping. If required, try logging in as a Tutor or Viva Co-ordinator.');
+        window.location = '/';
+    }
     $.ajax({
         url: '/ajax/get_student_list?course_id=' + course_id,
 
