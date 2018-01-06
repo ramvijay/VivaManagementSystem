@@ -30,8 +30,6 @@ class TutorSetupConfigAJAXHandler(IAJAXHandler):
                     user = User.objects.get(user_id=tutor.faculty)
                     user.user_id = faculty
                     user.save()
-                    print(tutor.session.session_id)
-                    print(faculty.employee_id)
                     tutor.faculty = faculty
                     tutor.save()
                     batch.strength = data["no_of_students"]
