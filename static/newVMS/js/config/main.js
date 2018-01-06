@@ -66,7 +66,7 @@ window.config_page_data_load_func[0] = function() {
         if (jsonData.result != 'none') {
             jsonData = JSON.parse(jsonData.result);
             $('#session_year').val(jsonData[0].fields.session_year);
-            Materialize.updateTextFields();
+            M.updateTextFields();
             if (jsonData[0].fields.session_sem == 'even') {
                 $('#session_sem').val('even')
             } else {
@@ -89,9 +89,9 @@ window.config_page_data_load_func[1] = function() {
                 var currentHtml = $('#class-tutor-alloc-data').html();
                 var newHtml = '<tr>';
                 newHtml += '<td>' + item.fields.course_name + '</td>';
-                newHtml += '<td><input type="text" class="input-group" id="' + i + '_student_count"></td>';
-                newHtml += '<td><input type="text" class="input-group" id="' + i + '_tutor"></td>';
-                newHtml += '<td><input type="text" class="input-group" id="' + i + '_group_mail"></td>';
+                newHtml += '<td><input type="text" class="form-control" id="' + i + '_student_count"></td>';
+                newHtml += '<td><input type="text" class="form-control" id="' + i + '_tutor"></td>';
+                newHtml += '<td><input type="text" class="form-control" id="' + i + '_group_mail"></td>';
                 $('#class-tutor-alloc-data').html(currentHtml + newHtml);
             });
             $.ajax({
@@ -128,7 +128,7 @@ window.config_page_data_load_func[3] = function() {
         })
         .then(url => {
             $('#report_form_url').val(url);
-            Materialize.updateTextFields();
+            M.updateTextFields();
         })
         .catch(err => {
             toastr.error(err);
@@ -137,9 +137,7 @@ window.config_page_data_load_func[3] = function() {
 
 $(document).ready(function(){
     window.config_tabs = $('ul.tabs').tabs();
-    $(document).ready(function() {
-        $('select').material_select();
-    });
+    $('#session_sem').select();
 
     _LoadConfigPageData(0);
     $('#config_tabs_header li').on('click', function() {
